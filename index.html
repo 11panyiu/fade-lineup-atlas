@@ -377,7 +377,10 @@ function matchesTacticalFilter(x,filter){
  if(filter==='前压/防前压')return isPressureLineup(x);
  return true;
 }
-function targetAreasForMap(){return mapMeta().threeSites?['A点','B点','C点','中路']:['A点','B点','中路']}
+function targetAreasForMap(){
+ if(currentMapId==='lotus')return ['A大','A点','B点','C点'];
+ return mapMeta().threeSites?['A点','B点','C点','中路']:['A点','B点','中路'];
+}
 function renderAreaFilters(){
  const all=db.lineups;
  const areas=['',...targetAreasForMap()];
@@ -491,6 +494,7 @@ $('editInstead').onclick=()=>{
 const MAP_TARGET_OPTIONS = {corrode:['A点','B点','中路']};
 function normalizeTargetArea(value){
  const s=String(value||'').trim();
+ if(/^A\s*大/i.test(s)||/^A\s*main/i.test(s))return 'A大';
  if(/^A\s*点/i.test(s))return 'A点';
  if(/^B\s*点/i.test(s))return 'B点';
  if(/^C\s*点/i.test(s))return 'C点';
@@ -499,7 +503,7 @@ function normalizeTargetArea(value){
 }
 function updateTargetOptions(previous=''){
  const sel=$('formTarget');
- const options=mapMeta().threeSites?['A点','B点','C点','中路']:['A点','B点','中路'];
+ const options=targetAreasForMap();
  sel.replaceChildren();
  for(const [value,label] of [['','请选择目标区域'],...options.map(x=>[x,x])]){
   const opt=document.createElement('option');opt.value=value;opt.textContent=label;sel.append(opt);

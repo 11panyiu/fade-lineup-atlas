@@ -86,12 +86,57 @@
  .quick-card-images{padding:0 12px 12px}
  .card .quick-card-meta{padding:0 13px 13px}
 }
+
+/* 点位卡片排版切换：大图 / 标准 / 紧凑 */
+.layout-switcher{display:inline-flex;align-items:center;gap:3px;background:#edf1f7;border:1px solid #dbe3ed;border-radius:11px;padding:4px}
+.layout-switcher button{border:1px solid transparent;background:transparent;color:#55647a;font-size:12px;font-weight:750;border-radius:8px;padding:7px 12px;min-height:35px;white-space:nowrap}
+.layout-switcher button[aria-pressed="true"]{background:#fff;color:#b83e59;border-color:#e6d1d9;box-shadow:0 2px 7px #1725361b}
+.layout-switcher button:focus-visible{outline:2px solid #e75a78;outline-offset:2px}
+.layout-switcher button:hover{border-color:#d2dbe8}
+.layout-switcher .layout-icon{font-size:16px;line-height:1;vertical-align:-1px;margin-right:5px}
+.cards[data-layout="large"]{grid-template-columns:minmax(0,1fr);gap:18px}
+.cards[data-layout="standard"]{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.cards[data-layout="compact"]{grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.cards[data-layout="standard"] .quick-card-top{padding:12px 14px 10px;gap:8px}
+.cards[data-layout="standard"] .quick-card-top h3{font-size:18px}
+.cards[data-layout="standard"] .throw-command{padding:8px 11px;gap:6px}
+.cards[data-layout="standard"] .throw-command strong{font-size:20px}
+.cards[data-layout="standard"] .throw-command .throw-caption{display:none}
+.cards[data-layout="standard"] .quick-card-images{padding:0 12px 10px;gap:7px}
+.cards[data-layout="standard"] .quick-card-meta{padding:0 13px 13px}
+.cards[data-layout="compact"] .quick-card-top{padding:9px 10px 7px;gap:6px}
+.cards[data-layout="compact"] .quick-card-top h3{font-size:15px}
+.cards[data-layout="compact"] .throw-command{padding:7px 9px;border-radius:8px}
+.cards[data-layout="compact"] .throw-command strong{font-size:17px}
+.cards[data-layout="compact"] .throw-command .throw-caption{display:none}
+.cards[data-layout="compact"] .quick-card-images{padding:0 9px 8px;gap:5px}
+.cards[data-layout="compact"] .quick-card-shot{border-radius:6px}
+.cards[data-layout="compact"] .quick-card-meta{padding:0 10px 10px}
+.cards[data-layout="compact"] .quick-card-meta .row{gap:5px}
+.cards[data-layout="compact"] .quick-card-meta .pill,.cards[data-layout="compact"] .quick-card-meta .map-status{font-size:10px;padding:4px 6px}
+.cards[data-layout="compact"] .quick-card-meta .glance-summary{display:none}
+.cards[data-layout="compact"] .quick-card-meta small{font-size:10px}
+.cards[data-layout="compact"] .quick-card-meta .map-action{font-size:11px;padding:6px}
+@media(max-width:1150px){.cards[data-layout="compact"]{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){.cards[data-layout="standard"]{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:650px){
+ .status-bar .layout-switcher{margin-left:auto}
+ .layout-switcher button{font-size:11px;padding:7px 9px}
+ .layout-switcher .layout-icon{margin-right:3px}
+ .cards[data-layout="compact"]{grid-template-columns:minmax(0,1fr)}
+ .cards[data-layout="compact"] .quick-card-top h3{font-size:16px}
+ .cards[data-layout="compact"] .quick-card-images{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .cards[data-layout="standard"] .quick-card-images{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 </style></head><body>
 <header><div class="brand"><b>FADE</b> / LINEUP ATLAS</div><div class="row"><span class="pill patch">Corrode · 13.08 参考</span><button class="primary" id="addBtn">＋ 添加点位</button></div></header>
 <div class="wrap"><small class="muted">个人技能点位图鉴 / Personal Lineup Library</small><h1>盐海矿镇 · Corrode</h1><div class="muted">黑梦 Fade · 站位、瞄准、落点，一次查清</div>
 <div class="tools"><input id="search" placeholder="搜索位置、备注或标题，例如 A 大厅"><select id="sideFilter"><option value="">全部阵营</option><option value="进攻">进攻</option><option value="防守">防守</option></select><select id="abilityFilter"><option value="">全部技能</option><option>诡眼</option><option>幽爪</option><option>黯兽</option></select><select id="mappingFilter" aria-label="地图绑定状态"><option value="">全部绑定状态</option><option value="pending">待绑定地图</option><option value="mapped">已绑定地图</option></select><button id="exportBtn">导出备份</button><button id="importBtn">导入备份</button><input id="importInput" type="file" accept=".json" hidden></div>
 <div class="map-launch"><div class="map-launch-info"><strong>盐海矿镇 · 点位地图</strong><span class="muted">默认收起，查看站位或补充坐标时再展开</span></div><button type="button" id="toggleMap" aria-controls="mapPanel" aria-expanded="false">展开地图</button></div><div class="layout"><section class="panel map-panel hidden" id="mapPanel"><div class="row" style="justify-content:space-between"><h2>实时点位地图</h2><span class="pill">游戏内版本作图</span></div><div class="mapframe" id="map"><img id="mapImg" alt="盐海矿镇 13.08 版本参考地图"><div id="pins"></div></div><div class="legend"><span><i class="dot"></i>红色：技能落点</span><span><i class="dot blue"></i>蓝色：投掷站位</span></div><div class="help" id="mapHelp">点击地图标记，查看相应点位详情。地图坐标可选填，添加教程时也可以稍后补充。</div><div class="row" style="margin-top:12px"><button type="button" id="cancelMapSelection" class="hidden">取消标注，返回编辑</button><button id="changeMap">更换底图（可选）</button><input id="mapFile" type="file" accept="image/*" hidden><button id="resetMap">恢复内置地图</button></div><p class="help">地图以你在现版本游戏内的截图为依据进行了去背景处理。未宣称与官方矢量地图逐像素相同；更换底图后请重新检查标记位置。</p></section>
-<section><div class="status-bar"><h2>Fade 技能教学</h2><div class="quick-filter-group" role="group" aria-label="常用点位快捷筛选"><button type="button" class="quick-filter-btn" data-quick="进攻" aria-pressed="false">进攻</button><button type="button" class="quick-filter-btn" data-quick="防守" aria-pressed="false">防守</button><button type="button" class="quick-filter-btn" data-quick="反清" aria-pressed="false">反清</button></div><span class="pill" id="count">0 个点位</span></div><div id="cards" class="cards"></div><div class="empty hidden" id="empty">目前还没有录入点位。点击右上角「添加点位」，上传你自己的教学截图。</div></section></div>
+<section><div class="status-bar"><h2>Fade 技能教学</h2><div class="quick-filter-group" role="group" aria-label="常用点位快捷筛选"><button type="button" class="quick-filter-btn" data-quick="进攻" aria-pressed="false">进攻</button><button type="button" class="quick-filter-btn" data-quick="防守" aria-pressed="false">防守</button><button type="button" class="quick-filter-btn" data-quick="反清" aria-pressed="false">反清</button></div><div class="layout-switcher" role="group" aria-label="点位卡片排版">
+<button type="button" data-layout="large" aria-pressed="true" title="大图排版，一行一个"><span class="layout-icon" aria-hidden="true">▣</span>大图</button>
+<button type="button" data-layout="standard" aria-pressed="false" title="标准排版，一行两个"><span class="layout-icon" aria-hidden="true">▦</span>标准</button>
+<button type="button" data-layout="compact" aria-pressed="false" title="紧凑排版，快速浏览"><span class="layout-icon" aria-hidden="true">▥</span>紧凑</button></div><span class="pill" id="count">0 个点位</span></div><div id="cards" class="cards" data-layout="large"></div><div class="empty hidden" id="empty">目前还没有录入点位。点击右上角「添加点位」，上传你自己的教学截图。</div></section></div>
 <div class="footer">GitHub Pages 网页，无需额外账号。点位保存在当前浏览器（localStorage），不同设备不会自动同步。图片会压缩后保存，但浏览器空间仍有限，请定期导出 JSON 备份。<br>地图依据：用户 2026-10-15 游戏内截图；版本改动核对：VALORANT 13.08 Patch Notes。<a href="https://playvalorant.com/en-us/news/game-updates/valorant-patch-notes-13-08/" target="_blank">查看官方公告</a></div></div>
 <div class="overlay hidden" id="detailOverlay"><div class="modal"><div class="modalhead"><div id="detailHead"></div><button id="closeDetail">✕</button></div><div class="modalcontent" id="detailContent"></div></div></div>
 <div class="overlay confirm-overlay hidden" id="deleteOverlay" role="dialog" aria-modal="true" aria-labelledby="deleteTitle"><div class="confirm-dialog"><h2 id="deleteTitle">确定要删除这个点位吗？</h2><p id="deleteDescription">删除后，这个点位及其全部教学图片将从当前数据库移除。你也可以改为修改点位信息。</p><div class="confirm-actions"><button type="button" id="confirmDelete" class="danger-action">删除</button><button type="button" id="cancelDelete">取消删除</button><button type="button" id="editInstead" class="edit-action">修改点位</button></div></div></div>
@@ -329,5 +374,24 @@ document.querySelectorAll('.quick-filter-btn').forEach(btn=>btn.onclick=()=>{con
 $('sideFilter').addEventListener('change',()=>{quickFilter='';render()});
 for(let id of ['search','abilityFilter','mappingFilter'])$(id).addEventListener(id==='search'?'input':'change',render);
 window.onkeydown=e=>{if(e.key==='Escape'){if(!$('deleteOverlay').classList.contains('hidden')){closeDeleteConfirmation();return}if(editing){stopEdit();return}if(!$('detailOverlay').classList.contains('hidden'))closeDetail()}};
+const CARD_LAYOUT_STORAGE_KEY='fadeAtlasCardLayout';
+let cardLayout='large';
+try{
+ const previousLayout=localStorage.getItem(CARD_LAYOUT_STORAGE_KEY);
+ if(['large','standard','compact'].includes(previousLayout))cardLayout=previousLayout;
+}catch(e){}
+function applyCardLayout(layout){
+ if(!['large','standard','compact'].includes(layout))return;
+ cardLayout=layout;
+ $('cards').dataset.layout=layout;
+ document.querySelectorAll('.layout-switcher [data-layout]').forEach(button=>{
+  button.setAttribute('aria-pressed',String(button.dataset.layout===layout));
+ });
+ try{localStorage.setItem(CARD_LAYOUT_STORAGE_KEY,layout)}catch(e){}
+}
+document.querySelectorAll('.layout-switcher [data-layout]').forEach(button=>{
+ button.onclick=()=>applyCardLayout(button.dataset.layout);
+});
+applyCardLayout(cardLayout);
 setMap();render();
 </script></body></html>

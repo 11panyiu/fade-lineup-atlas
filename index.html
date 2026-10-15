@@ -6,7 +6,7 @@
 <header><div class="brand"><b>FADE</b> / LINEUP ATLAS</div><div class="row"><span class="pill patch">Corrode · 13.08 参考</span><button class="primary" id="addBtn">＋ 添加点位</button></div></header>
 <div class="wrap"><small class="muted">个人技能点位图鉴 / Personal Lineup Library</small><h1>盐海矿镇 · Corrode</h1><div class="muted">黑梦 Fade · 站位、瞄准、落点，一次查清</div>
 <div class="tools"><input id="search" placeholder="搜索位置、备注或标题，例如 A 大厅"><select id="sideFilter"><option value="">全部阵营</option><option value="进攻">进攻</option><option value="防守">防守</option></select><select id="abilityFilter"><option value="">全部技能</option><option>诡眼</option><option>幽爪</option><option>黯兽</option></select><button id="exportBtn">导出备份</button><button id="importBtn">导入备份</button><input id="importInput" type="file" accept=".json" hidden></div>
-<div class="layout"><section class="panel"><div class="row" style="justify-content:space-between"><h2>实时点位地图</h2><span class="pill">游戏内版本作图</span></div><div class="mapframe" id="map"><img id="mapImg" alt="盐海矿镇 13.08 版本参考地图"><div id="pins"></div></div><div class="legend"><span><i class="dot"></i>红色：技能落点</span><span><i class="dot blue"></i>蓝色：投掷站位</span></div><div class="help" id="mapHelp">点击地图标记，查看相应点位详情。添加教程时，按提示依次点击地图两次设置坐标。</div><div class="row" style="margin-top:12px"><button id="changeMap">更换底图（可选）</button><input id="mapFile" type="file" accept="image/*" hidden><button id="resetMap">恢复内置地图</button></div><p class="help">地图以你在现版本游戏内的截图为依据进行了去背景处理。未宣称与官方矢量地图逐像素相同；更换底图后请重新检查标记位置。</p></section>
+<div class="layout"><section class="panel"><div class="row" style="justify-content:space-between"><h2>实时点位地图</h2><span class="pill">游戏内版本作图</span></div><div class="mapframe" id="map"><img id="mapImg" alt="盐海矿镇 13.08 版本参考地图"><div id="pins"></div></div><div class="legend"><span><i class="dot"></i>红色：技能落点</span><span><i class="dot blue"></i>蓝色：投掷站位</span></div><div class="help" id="mapHelp">点击地图标记，查看相应点位详情。地图坐标可选填，添加教程时也可以稍后补充。</div><div class="row" style="margin-top:12px"><button id="changeMap">更换底图（可选）</button><input id="mapFile" type="file" accept="image/*" hidden><button id="resetMap">恢复内置地图</button></div><p class="help">地图以你在现版本游戏内的截图为依据进行了去背景处理。未宣称与官方矢量地图逐像素相同；更换底图后请重新检查标记位置。</p></section>
 <section><div class="row" style="justify-content:space-between"><h2>Fade 技能教学</h2><span class="pill" id="count">0 个点位</span></div><div id="cards" class="cards"></div><div class="empty hidden" id="empty">目前还没有录入点位。点击右上角「添加点位」，上传你自己的教学截图。</div></section></div>
 <div class="footer">本地版，无需账号。保存在当前浏览器（localStorage）。图片会压缩后保存，但浏览器空间仍有限，请定期导出 JSON 备份。<br>地图依据：用户 2026-10-15 游戏内截图；版本改动核对：VALORANT 13.08 Patch Notes。<a href="https://playvalorant.com/en-us/news/game-updates/valorant-patch-notes-13-08/" target="_blank">查看官方公告</a></div></div>
 <div class="overlay hidden" id="detailOverlay"><div class="modal"><div class="modalhead"><div id="detailHead"></div><button id="closeDetail">✕</button></div><div class="modalcontent" id="detailContent"></div></div></div>
@@ -90,7 +90,7 @@ function openEdit(id=null){
  $('formPhotos').value='';
  showSteps();
  $('editOverlay').classList.remove('hidden');
- $('editingMessage').textContent=original?'正在修改原有点位。可以更改名称、阵营、技能、投掷方式、备注及教学图片。地图坐标可以保留原值，也可以重新选择。':'请先点击「重新选择地图坐标」并在地图上设置落点和站位。';
+ $('editingMessage').textContent=original?'正在修改原有点位。可以更改名称、阵营、技能、投掷方式、备注及教学图片。地图坐标为选填项，可保留原值或稍后补充。':'地图坐标为选填项。可以直接上传教学图片并保存，之后再编辑补充技能落点和人物站位。';
  renderPins();updateCoord();
 }
 function stopEdit(returnToDetail=true){
@@ -113,7 +113,7 @@ function showSteps(){$('photoSteps').innerHTML=steps.map((s,i)=>`<div class="ste
 $('saveBtn').onclick=()=>{
  const title=$('formTitle').value.trim();if(!title)return alert('请填写点位标题');
  if(!$('formTarget').value)return alert('请选择目标区域：A点、B点或中路');
- if(!editingId&&(!landing||!standing))return alert('请先点击「重新选择地图坐标」，标记技能落点和人物站位');
+ // 地图坐标为选填项，允许只保存图文教学并在以后编辑时补充。
  const existingIndex=editingId?db.lineups.findIndex(z=>z.id===editingId):-1;
  if(editingId&&existingIndex<0)return alert('原点位不存在，无法保存修改');
  const previous=existingIndex>=0?db.lineups[existingIndex]:null;

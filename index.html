@@ -3,6 +3,32 @@
 
 .confirm-overlay{z-index:45}.confirm-dialog{width:min(480px,100%);padding:27px;border-radius:16px;background:#fff;box-shadow:0 22px 80px #0a152557}.confirm-dialog h2{font-size:21px;margin:0 0 8px}.confirm-dialog p{color:#667488;font-size:14px;margin:0 0 22px}.confirm-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}.confirm-actions button{font-weight:650;min-height:46px;padding:10px 6px}.danger-action{background:#e14960!important;color:white!important;border-color:#e14960!important}.danger-action:hover{background:#c5364c!important}.edit-action{background:#ecf4ff!important;border-color:#b9d1ee!important;color:#275689!important}@media(max-width:480px){.confirm-dialog{padding:20px}.confirm-actions{grid-template-columns:1fr}.confirm-actions button{min-height:42px}}
 .card.unmapped{border-color:#e7ba63;box-shadow:0 3px 14px #bd842014}.card.unmapped:hover{border-color:#d39a30}.map-status{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:7px;font-size:11px;font-weight:750}.map-status.pending{background:#fff2d9;color:#825310}.map-status.done{background:#eef5f5;color:#356a65}.map-action{margin-top:10px;border:1px solid #dfb66b;background:#fff8eb;color:#80500e;font-size:12px;font-weight:700;padding:7px 11px}.map-action:hover{border-color:#a87723}.pending-shortcut{background:#fff3d9;color:#855815;border-color:#e7c783;font-weight:700}.pending-shortcut.active{background:#e9b85f;color:#442800;border-color:#dbaa50}.quick-filter-group{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.quick-filter-btn{background:#f5f7fb;color:#42536b;border:1px solid #d9e1eb;border-radius:9px;padding:8px 11px;min-height:35px;font-size:12px;font-weight:700;white-space:nowrap}.quick-filter-btn.active{background:#e9f0ff;color:#2856a0;border-color:#8babeb}.quick-filter-btn:hover{border-color:#8babeb}.purpose-tag{background:#fff3e1;color:#96602b}.status-bar{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.status-bar h2{margin-right:auto}@media(max-width:620px){.status-bar{margin-bottom:10px}.status-bar h2{width:100%}.map-action{width:100%}}
+
+/* 对局速查模式：站位 + 瞄准 + 投法，进入详情后一屏可见 */
+.glance-cover{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#17263a;min-height:125px}
+.glance-cover .glance-image{position:relative;min-width:0;min-height:125px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#172638}
+.glance-cover .glance-image img{width:100%;height:100%;object-fit:contain;max-height:145px}
+.glance-cover .glance-image .empty-shot{color:#acc0d4;font-size:12px;text-align:center;padding:12px}
+.glance-cover .glance-image span{position:absolute;top:7px;left:7px;color:white;font-size:12px;font-weight:800;background:#101d2bd9;border-radius:5px;padding:4px 7px}
+.glance-throw{display:flex;align-items:center;gap:9px;margin:0 0 10px;padding:10px 12px;background:#e8eef8;border-radius:9px;color:#273b59}
+.glance-throw strong{font-size:21px;line-height:1.2;color:#af3551}
+.glance-throw .glance-throw-label{font-size:12px;font-weight:800;color:#657589}
+.glance-throw .glance-throw-hint{margin-left:auto;font-size:11px;color:#78889d}
+.glance-summary{font-size:12px;color:#617086;line-height:1.5;margin:8px 0}
+.glance-detail{border:1px solid #dbe3ef;border-radius:13px;padding:14px;background:#f6f9fe;margin-bottom:17px}
+.glance-detail-head{font-size:15px;font-weight:900;margin-bottom:11px;color:#253957}
+.glance-steps{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.glance-step{display:flex;flex-direction:column;min-width:0;text-align:left;padding:0;overflow:hidden;background:white;border:1px solid #dce5ef;border-radius:10px}
+.glance-step .glance-step-title{display:block;padding:9px 11px;font-weight:850;color:#233752;font-size:14px}
+.glance-step img{width:100%;height:205px;max-height:205px;object-fit:contain;background:#142235}
+.glance-step .glance-shot-empty{height:205px;display:flex;align-items:center;justify-content:center;background:#e9eff7;color:#7b8899;font-size:13px}
+.glance-step .glance-step-note{display:block;padding:9px 11px;color:#5d6a7c;font-size:13px;line-height:1.4;min-height:36px}
+.glance-step[disabled]{cursor:default;opacity:.8}
+.glance-throw-large{display:flex;align-items:center;gap:12px;background:#ffedf0;border-radius:10px;margin-top:12px;padding:13px 15px;color:#8d243d}
+.glance-throw-large .number{background:#e64f6a;border-radius:8px;padding:7px 10px;font-size:15px;color:white;font-weight:900}
+.glance-throw-large .method{font-weight:900;font-size:25px}
+.glance-throw-large .explain{font-size:12px;margin-left:auto;color:#9f5568}
+@media(max-width:620px){.glance-step img,.glance-step .glance-shot-empty{height:138px}.glance-steps{gap:7px}.glance-detail{padding:10px}.glance-throw-large .method{font-size:20px}.glance-throw-large .explain{display:none}.glance-step .glance-step-title{font-size:12px;padding:8px}.glance-step .glance-step-note{font-size:11px;padding:8px}}
 </style></head><body>
 <header><div class="brand"><b>FADE</b> / LINEUP ATLAS</div><div class="row"><span class="pill patch">Corrode · 13.08 参考</span><button class="primary" id="addBtn">＋ 添加点位</button></div></header>
 <div class="wrap"><small class="muted">个人技能点位图鉴 / Personal Lineup Library</small><h1>盐海矿镇 · Corrode</h1><div class="muted">黑梦 Fade · 站位、瞄准、落点，一次查清</div>
@@ -30,13 +56,43 @@ function filtered(){
  const q=$('search').value.toLowerCase().trim(),a=$('abilityFilter').value,s=$('sideFilter').value,m=$('mappingFilter').value;
  return db.lineups.filter(x=>(!a||x.ability===a)&&(!s||x.side===s)&&(!quickFilter||quickFilter!=='反清'||x.purpose==='反清')&&(!q||(x.title+' '+x.target+' '+x.summary+' '+x.notes+' '+(x.purpose||'')).toLowerCase().includes(q))&&(!m||(m==='mapped'?isMapped(x):!isMapped(x))));
 }
+function lineupThrowLabel(x){
+ const method=String(x.throw||'直接投').trim();
+ if(method==='跑，然后跳投'||method==='跑跳投')return '跑→跳→投';
+ if(method==='站投')return '直接投';
+ return method;
+}
+function lineupImage(x,kind){
+ const arr=Array.isArray(x.steps)?x.steps:[];
+ if(!arr.length)return null;
+ const rx=kind==='stand'?/(站位|起始|落脚|贴墙|standing|position)/i:/(瞄准|准星|对准|瞄点|aim|crosshair)/i;
+ const exact=arr.findIndex(s=>rx.test(String(s.label||'')));
+ const i=exact>=0?exact:kind==='stand'?0:arr.length>=2?1:-1;
+ return i>=0?{...arr[i],index:i}:null;
+}
+function shortShotNote(s,fallback){
+ return s?.note?.trim()||fallback;
+}
+function cardQuickVisuals(x){
+ const a=lineupImage(x,'stand'),b=lineupImage(x,'aim');
+ const one=(s,title)=>`<div class="glance-image"><span>${title}</span>${s?.src?`<img loading="lazy" src="${s.src}" alt="${title}截图">`:'<div class="empty-shot">尚未上传</div>'}</div>`;
+ return `<div class="glance-cover">${one(a,'① 站位')}${one(b,'② 瞄准')}</div>`;
+}
+function detailQuickGuide(x){
+ const a=lineupImage(x,'stand'),b=lineupImage(x,'aim');
+ const tile=(s,title,fallback)=>{
+   const image=s?.src?`<img src="${s.src}" alt="${title}截图">`:'<div class="glance-shot-empty">暂无对应截图</div>';
+   return `<button type="button" class="glance-step" ${s?'data-glance-jump="'+s.index+'"':'disabled'}><span class="glance-step-title">${title}</span>${image}<span class="glance-step-note">${safe(shortShotNote(s,fallback))}</span></button>`;
+ };
+ return `<section class="glance-detail" aria-label="对局速查"><div class="glance-detail-head">⚡ 对局速查：看完这三步就能投</div><div class="glance-steps">${tile(a,'① 站在哪里','查看站位截图')}${tile(b,'② 瞄哪里','查看瞄准截图')}</div><div class="glance-throw-large"><span class="number">③ 投法</span><span class="method">${safe(lineupThrowLabel(x))}</span><span class="explain">点图片可查看完整步骤</span></div></section>`;
+}
 function render(){
  const list=filtered();
  $('count').textContent=list.length+' 个点位';
  document.querySelectorAll('.quick-filter-btn').forEach(b=>{const key=b.dataset.quick;const total=db.lineups.filter(x=>key==='反清'?x.purpose==='反清':x.side===key).length;b.textContent=key+' '+total;b.classList.toggle('active',quickFilter===key);b.setAttribute('aria-pressed',String(quickFilter===key));});
  $('empty').classList.toggle('hidden',list.length!==0);
  $('empty').textContent=db.lineups.length===0?'目前还没有录入点位。点击右上角「添加点位」，上传你自己的教学截图。':'当前筛选下没有点位，请调整搜索或绑定状态。';
- $('cards').innerHTML=list.map(x=>`<article class="card ${isMapped(x)?'':'unmapped'}" tabindex="0" data-id="${safe(x.id)}"><div class="cover">${x.steps?.[0]?.src?`<img src="${x.steps[0].src}" alt="">`:`<div class="fallback">FADE / ${safe(x.ability)}</div>`}</div><div class="cardbody"><div class="row"><span class="pill">黑梦 · ${safe(x.side)}</span><span class="pill">${safe(x.ability)}</span><span class="pill">${safe(x.throw)}</span>${x.purpose==='反清'?'<span class="pill purpose-tag">反清</span>':''}<span class="map-status ${isMapped(x)?'done':'pending'}">${isMapped(x)?'✓ 已绑定地图':'● 待绑定地图'}</span></div><h3>${safe(x.title)}</h3><p>${safe(x.summary||x.target||'点击查看完整图文教学')}</p><small class="muted">${x.steps?.length||0} 张教学图 · 点击展开</small>${isMapped(x)?'':`<button type="button" class="map-action" data-map-id="${safe(x.id)}">＋ 补充地图坐标</button>`}</div></article>`).join('');
+ $('cards').innerHTML=list.map(x=>`<article class="card ${isMapped(x)?'':'unmapped'}" tabindex="0" data-id="${safe(x.id)}">${cardQuickVisuals(x)}<div class="cardbody"><h3>${safe(x.title)}</h3><div class="glance-throw"><span class="glance-throw-label">③ 投法</span><strong>${safe(lineupThrowLabel(x))}</strong><span class="glance-throw-hint">${safe(x.side)} · ${safe(x.target||'')}</span></div><div class="row"><span class="pill">${safe(x.ability)}</span>${x.purpose==='反清'?'<span class="pill purpose-tag">反清</span>':''}<span class="map-status ${isMapped(x)?'done':'pending'}">${isMapped(x)?'✓ 已绑定地图':'● 待绑定地图'}</span></div>${x.summary?`<p class="glance-summary">${safe(x.summary)}</p>`:''}<small class="muted">${x.steps?.length||0} 张教学图 · 点击查看大图</small>${isMapped(x)?'':`<button type="button" class="map-action" data-map-id="${safe(x.id)}">＋ 补充地图坐标</button>`}</div></article>`).join('');
  document.querySelectorAll('.card').forEach(el=>{el.onclick=()=>showDetail(el.dataset.id);el.onkeydown=e=>{if(e.key==='Enter')showDetail(el.dataset.id)}});
  document.querySelectorAll('.map-action').forEach(b=>b.onclick=e=>{e.stopPropagation();beginMapping(b.dataset.mapId)});
  renderPins();
@@ -47,8 +103,9 @@ function showDetail(id){
  selected=id;renderPins();
  const mapped=isMapped(x);
  $('detailHead').innerHTML=`<div class="row"><span class="pill">黑梦 Fade</span><span class="pill">${safe(x.side)}</span><span class="pill">${safe(x.ability)}</span><span class="pill patch">${safe(x.throw)}</span>${x.purpose==='反清'?'<span class="pill purpose-tag">反清</span>':''}<span class="map-status ${mapped?'done':'pending'}">${mapped?'✓ 已绑定地图':'● 待绑定地图'}</span></div><h2>${safe(x.title)}</h2><small class="muted">${safe(x.summary||'')}</small>`;
- let imgs=(x.steps||[]).map((s,i)=>`<figure><b>${i+1}. ${safe(s.label||'教学步骤')}</b><img src="${s.src}" alt="步骤${i+1}"><figcaption>${safe(s.note||'')}</figcaption></figure>`).join('');
- $('detailContent').innerHTML=`<p class="muted"><b>目标区域：</b>${safe(x.target||'未注明')}　<b>操作：</b>${safe(x.throw)}</p>${mapped?'':'<div class="tip">此教学尚未完整绑定到地图，可继续正常查看图文。补充技能落点和人物站位后将自动标为已绑定。</div><button id="bindFromDetail" class="map-action">＋ 补充地图坐标</button>'}<div class="tip">${safe(x.notes||'尚未填写细节')}</div>${imgs||'<div class="empty">未上传教学图片</div>'}<button id="deleteLineup" style="margin:15px 0;color:#b34457">删除这个点位</button>`;
+ let imgs=(x.steps||[]).map((s,i)=>`<figure id="lineup-step-${i}"><b>${i+1}. ${safe(s.label||'教学步骤')}</b><img src="${s.src}" alt="步骤${i+1}"><figcaption>${safe(s.note||'')}</figcaption></figure>`).join('');
+ $('detailContent').innerHTML=`${detailQuickGuide(x)}<p class="muted"><b>目标区域：</b>${safe(x.target||'未注明')}　<b>操作：</b>${safe(x.throw)}</p>${mapped?'':'<div class="tip">此教学尚未完整绑定到地图，可继续正常查看图文。补充技能落点和人物站位后将自动标为已绑定。</div><button id="bindFromDetail" class="map-action">＋ 补充地图坐标</button>'}<div class="tip">${safe(x.notes||'尚未填写细节')}</div><h3>完整图文步骤</h3>${imgs||'<div class="empty">未上传教学图片</div>'}<button id="deleteLineup" style="margin:15px 0;color:#b34457">删除这个点位</button>`;
+ document.querySelectorAll('[data-glance-jump]').forEach(b=>b.onclick=()=>{const fig=document.getElementById('lineup-step-'+b.dataset.glanceJump);if(fig)fig.scrollIntoView({behavior:'smooth',block:'start'});});
  $('deleteLineup').onclick=()=>openDeleteConfirmation(id);
  if(!mapped)$('bindFromDetail').onclick=()=>beginMapping(id);
  $('detailOverlay').classList.remove('hidden');

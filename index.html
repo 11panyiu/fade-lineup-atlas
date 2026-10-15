@@ -378,7 +378,7 @@ function matchesTacticalFilter(x,filter){
  return true;
 }
 function targetAreasForMap(){
- if(currentMapId==='lotus')return ['A大','A点','B点','C点'];
+ if(currentMapId==='lotus')return ['A点','B点','C点'];
  return mapMeta().threeSites?['A点','B点','C点','中路']:['A点','B点','中路'];
 }
 function renderAreaFilters(){
@@ -494,7 +494,7 @@ $('editInstead').onclick=()=>{
 const MAP_TARGET_OPTIONS = {corrode:['A点','B点','中路']};
 function normalizeTargetArea(value){
  const s=String(value||'').trim();
- if(/^A\s*大/i.test(s)||/^A\s*main/i.test(s))return 'A大';
+ if(/^A\s*大/i.test(s)||/^A\s*main/i.test(s))return currentMapId==='lotus'?'A点':'A大';
  if(/^A\s*点/i.test(s))return 'A点';
  if(/^B\s*点/i.test(s))return 'B点';
  if(/^C\s*点/i.test(s))return 'C点';

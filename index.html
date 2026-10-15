@@ -53,6 +53,39 @@
 .modalcontent figure{scroll-margin-top:12px}
 @media(max-width:980px){.cards{grid-template-columns:1fr}.map-launch{padding:12px}}
 @media(max-width:540px){.map-launch{flex-wrap:wrap}.map-launch-info{width:100%}.cards{gap:12px}.card .cardbody{padding:13px}.throw-highlight strong{font-size:20px}}
+
+/* 实战速查大卡：一眼识别投法，左右两幅大截图 */
+.cards{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.card.lineup-quick-card{border-radius:16px;overflow:hidden}
+.quick-card-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px 14px}
+.quick-card-top h3{font-size:22px;line-height:1.35;color:#17283e;margin:0;min-width:0;overflow-wrap:anywhere}
+.throw-command{flex-shrink:0;display:flex;align-items:center;gap:11px;padding:11px 18px;border-radius:11px;background:#202d42;color:#fff}
+.throw-command .throw-caption{font-size:12px;font-weight:700;opacity:.78;white-space:nowrap}
+.throw-command strong{font-size:clamp(23px,2.5vw,32px);font-weight:900;line-height:1.1;white-space:nowrap;letter-spacing:.2px}
+.throw-command.throw-jump{background:#b93458}
+.throw-command.throw-run{background:#9a5117}
+.throw-command.throw-direct{background:#285b85}
+.quick-card-images{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;padding:0 18px 14px}
+.quick-card-shot{min-width:0;aspect-ratio:16/9;max-height:420px;background:#142033;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.quick-card-shot img{display:block;width:100%;height:100%;object-fit:contain}
+.quick-card-shot .missing{font-size:13px;color:#b6c2d1;padding:14px;text-align:center}
+.card .quick-card-meta{padding:0 20px 16px}
+.card .quick-card-meta>.row{margin:0 0 7px}
+.card .quick-card-meta .glance-summary{margin:7px 0}
+.card .quick-card-meta small{font-size:11px}
+@media(max-width:900px){
+ .quick-card-images{grid-template-columns:minmax(0,1fr);gap:10px}
+ .quick-card-shot{max-height:none}
+}
+@media(max-width:540px){
+ .quick-card-top{padding:14px 13px 11px;gap:8px}
+ .quick-card-top h3{font-size:18px}
+ .throw-command{padding:9px 11px;gap:6px}
+ .throw-command strong{font-size:22px}
+ .throw-command .throw-caption{display:none}
+ .quick-card-images{padding:0 12px 12px}
+ .card .quick-card-meta{padding:0 13px 13px}
+}
 </style></head><body>
 <header><div class="brand"><b>FADE</b> / LINEUP ATLAS</div><div class="row"><span class="pill patch">Corrode · 13.08 参考</span><button class="primary" id="addBtn">＋ 添加点位</button></div></header>
 <div class="wrap"><small class="muted">个人技能点位图鉴 / Personal Lineup Library</small><h1>盐海矿镇 · Corrode</h1><div class="muted">黑梦 Fade · 站位、瞄准、落点，一次查清</div>
@@ -111,13 +144,35 @@ function lineupThrowLabel(x){
  if(method==='站投')return '直接投';
  return method;
 }
+
+function quickLineupImages(x){
+ const arr=Array.isArray(x.steps)?x.steps:[];
+ const find=(re)=>arr.findIndex(s=>re.test(String(s.label||'')));
+ const standIndex=find(/站位|起始|贴墙|落脚|standing|position/i);
+ const aimIndex=find(/瞄准|瞄点|对准|准星|aim|crosshair/i);
+ const left=standIndex>=0?standIndex:(arr.length?0:-1);
+ let right=aimIndex>=0?aimIndex:(arr.length>=2?1:-1);
+ if(right===left)right=arr.findIndex((_,i)=>i!==left);
+ return [left>=0?arr[left]:null,right>=0?arr[right]:null];
+}
+function throwKind(x){
+ const method=lineupThrowLabel(x);
+ if(method==='跳投')return 'throw-jump';
+ if(method==='跑→跳→投')return 'throw-run';
+ return 'throw-direct';
+}
+function quickCardImages(x){
+ const [stand,aim]=quickLineupImages(x);
+ const shot=(s,type)=>`<div class="quick-card-shot">${s?.src?`<img loading="lazy" src="${s.src}" alt="${safe(x.title)} ${type}参考图">`:`<div class="missing">${type==='瞄准'?'尚未上传瞄准截图':'尚未上传站位截图'}</div>`}</div>`;
+ return `<div class="quick-card-images">${shot(stand,'站位')}${shot(aim,'瞄准')}</div>`;
+}
 function render(){
  const list=filtered();
  $('count').textContent=list.length+' 个点位';
  document.querySelectorAll('.quick-filter-btn').forEach(b=>{const key=b.dataset.quick;const total=db.lineups.filter(x=>key==='反清'?x.purpose==='反清':x.side===key).length;b.textContent=key+' '+total;b.classList.toggle('active',quickFilter===key);b.setAttribute('aria-pressed',String(quickFilter===key));});
  $('empty').classList.toggle('hidden',list.length!==0);
  $('empty').textContent=db.lineups.length===0?'目前还没有录入点位。点击右上角「添加点位」，上传你自己的教学截图。':'当前筛选下没有点位，请调整搜索或绑定状态。';
- $('cards').innerHTML=list.map(x=>`<article class="card ${isMapped(x)?'':'unmapped'}" tabindex="0" data-id="${safe(x.id)}"><div class="cover">${x.steps?.[0]?.src?`<img loading="lazy" src="${x.steps[0].src}" alt="${safe(x.title)}的首张教学截图">`:`<div class="fallback">FADE / ${safe(x.ability)}</div>`}</div><div class="cardbody"><h3>${safe(x.title)}</h3><div class="row"><span class="pill">${safe(x.side)}</span><span class="pill">${safe(x.ability)}</span><span class="pill">${safe(x.throw)}</span>${x.purpose==='反清'?'<span class="pill purpose-tag">反清</span>':''}<span class="map-status ${isMapped(x)?'done':'pending'}">${isMapped(x)?'✓ 已绑定地图':'● 待绑定地图'}</span></div>${x.summary?`<p class="glance-summary">${safe(x.summary)}</p>`:''}<small class="muted">${x.steps?.length||0} 张教学图 · 点击查看完整教学</small>${isMapped(x)?'':`<button type="button" class="map-action" data-map-id="${safe(x.id)}">＋ 补充地图坐标</button>`}</div></article>`).join('');
+ $('cards').innerHTML=list.map(x=>`<article class="card lineup-quick-card ${isMapped(x)?'':'unmapped'}" tabindex="0" data-id="${safe(x.id)}"><div class="quick-card-top"><h3>${safe(x.title)}</h3><div class="throw-command ${throwKind(x)}"><span class="throw-caption">投掷</span><strong>${safe(lineupThrowLabel(x))}</strong></div></div>${quickCardImages(x)}<div class="quick-card-meta"><div class="row"><span class="pill">${safe(x.side)} · ${safe(x.target||'')}</span><span class="pill">${safe(x.ability)}</span>${x.purpose==='反清'?'<span class="pill purpose-tag">反清</span>':''}<span class="map-status ${isMapped(x)?'done':'pending'}">${isMapped(x)?'✓ 已绑定地图':'● 待绑定地图'}</span></div>${x.summary?`<p class="glance-summary">${safe(x.summary)}</p>`:''}<small class="muted">${x.steps?.length||0} 张教学图 · 点击查看完整教学</small>${isMapped(x)?'':`<button type="button" class="map-action" data-map-id="${safe(x.id)}">＋ 补充地图坐标</button>`}</div></article>`).join('');
  document.querySelectorAll('.card').forEach(el=>{el.onclick=()=>showDetail(el.dataset.id);el.onkeydown=e=>{if(e.key==='Enter')showDetail(el.dataset.id)}});
  document.querySelectorAll('.map-action').forEach(b=>b.onclick=e=>{e.stopPropagation();beginMapping(b.dataset.mapId)});
  renderPins();

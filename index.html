@@ -29,11 +29,35 @@
 .glance-throw-large .method{font-weight:900;font-size:25px}
 .glance-throw-large .explain{font-size:12px;margin-left:auto;color:#9f5568}
 @media(max-width:620px){.glance-step img,.glance-step .glance-shot-empty{height:138px}.glance-steps{gap:7px}.glance-detail{padding:10px}.glance-throw-large .method{font-size:20px}.glance-throw-large .explain{display:none}.glance-step .glance-step-title{font-size:12px;padding:8px}.glance-step .glance-step-note{font-size:11px;padding:8px}}
+
+/* 地图改为可展开区域，教学卡片使用整个内容宽度 */
+.layout{display:flex;flex-direction:column;align-items:stretch;gap:20px}
+.layout>section{width:100%;min-width:0}
+.layout>.map-panel{width:100%;max-width:860px;margin:0 auto 4px}
+.map-launch{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 18px;padding:13px 18px;border:1px solid #e1e6ef;border-radius:12px;background:#fff;box-shadow:0 3px 12px #17253608}
+.map-launch-info{display:flex;flex-direction:column;gap:3px}
+.map-launch strong{font-size:15px}
+.map-launch .muted{font-size:12px}
+#toggleMap{background:#f6f8fc;border-color:#dbe2ed;font-weight:650;white-space:nowrap}
+#toggleMap[aria-expanded="true"]{background:#e7f0ff;color:#265686;border-color:#b8d0ec}
+#cancelMapSelection{margin-left:auto}
+.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.card .cover{width:100%;aspect-ratio:16/9;background:#132135}
+.card .cover img{width:100%;height:100%;object-fit:contain}
+.card .cardbody{padding:16px}
+.card .cardbody h3{font-size:18px;margin:2px 0 12px}
+.card .cardbody>.row{margin-bottom:11px}
+.throw-highlight{display:flex;gap:14px;align-items:center;padding:14px 17px;background:#fff0f3;border-radius:10px;margin:0 0 16px}
+.throw-highlight .throw-caption{font-size:13px;font-weight:700;color:#965164}
+.throw-highlight strong{font-size:23px;color:#ae2f4d}
+.modalcontent figure{scroll-margin-top:12px}
+@media(max-width:980px){.cards{grid-template-columns:1fr}.map-launch{padding:12px}}
+@media(max-width:540px){.map-launch{flex-wrap:wrap}.map-launch-info{width:100%}.cards{gap:12px}.card .cardbody{padding:13px}.throw-highlight strong{font-size:20px}}
 </style></head><body>
 <header><div class="brand"><b>FADE</b> / LINEUP ATLAS</div><div class="row"><span class="pill patch">Corrode · 13.08 参考</span><button class="primary" id="addBtn">＋ 添加点位</button></div></header>
 <div class="wrap"><small class="muted">个人技能点位图鉴 / Personal Lineup Library</small><h1>盐海矿镇 · Corrode</h1><div class="muted">黑梦 Fade · 站位、瞄准、落点，一次查清</div>
 <div class="tools"><input id="search" placeholder="搜索位置、备注或标题，例如 A 大厅"><select id="sideFilter"><option value="">全部阵营</option><option value="进攻">进攻</option><option value="防守">防守</option></select><select id="abilityFilter"><option value="">全部技能</option><option>诡眼</option><option>幽爪</option><option>黯兽</option></select><select id="mappingFilter" aria-label="地图绑定状态"><option value="">全部绑定状态</option><option value="pending">待绑定地图</option><option value="mapped">已绑定地图</option></select><button id="exportBtn">导出备份</button><button id="importBtn">导入备份</button><input id="importInput" type="file" accept=".json" hidden></div>
-<div class="layout"><section class="panel"><div class="row" style="justify-content:space-between"><h2>实时点位地图</h2><span class="pill">游戏内版本作图</span></div><div class="mapframe" id="map"><img id="mapImg" alt="盐海矿镇 13.08 版本参考地图"><div id="pins"></div></div><div class="legend"><span><i class="dot"></i>红色：技能落点</span><span><i class="dot blue"></i>蓝色：投掷站位</span></div><div class="help" id="mapHelp">点击地图标记，查看相应点位详情。地图坐标可选填，添加教程时也可以稍后补充。</div><div class="row" style="margin-top:12px"><button id="changeMap">更换底图（可选）</button><input id="mapFile" type="file" accept="image/*" hidden><button id="resetMap">恢复内置地图</button></div><p class="help">地图以你在现版本游戏内的截图为依据进行了去背景处理。未宣称与官方矢量地图逐像素相同；更换底图后请重新检查标记位置。</p></section>
+<div class="map-launch"><div class="map-launch-info"><strong>盐海矿镇 · 点位地图</strong><span class="muted">默认收起，查看站位或补充坐标时再展开</span></div><button type="button" id="toggleMap" aria-controls="mapPanel" aria-expanded="false">展开地图</button></div><div class="layout"><section class="panel map-panel hidden" id="mapPanel"><div class="row" style="justify-content:space-between"><h2>实时点位地图</h2><span class="pill">游戏内版本作图</span></div><div class="mapframe" id="map"><img id="mapImg" alt="盐海矿镇 13.08 版本参考地图"><div id="pins"></div></div><div class="legend"><span><i class="dot"></i>红色：技能落点</span><span><i class="dot blue"></i>蓝色：投掷站位</span></div><div class="help" id="mapHelp">点击地图标记，查看相应点位详情。地图坐标可选填，添加教程时也可以稍后补充。</div><div class="row" style="margin-top:12px"><button type="button" id="cancelMapSelection" class="hidden">取消标注，返回编辑</button><button id="changeMap">更换底图（可选）</button><input id="mapFile" type="file" accept="image/*" hidden><button id="resetMap">恢复内置地图</button></div><p class="help">地图以你在现版本游戏内的截图为依据进行了去背景处理。未宣称与官方矢量地图逐像素相同；更换底图后请重新检查标记位置。</p></section>
 <section><div class="status-bar"><h2>Fade 技能教学</h2><div class="quick-filter-group" role="group" aria-label="常用点位快捷筛选"><button type="button" class="quick-filter-btn" data-quick="进攻" aria-pressed="false">进攻</button><button type="button" class="quick-filter-btn" data-quick="防守" aria-pressed="false">防守</button><button type="button" class="quick-filter-btn" data-quick="反清" aria-pressed="false">反清</button></div><span class="pill" id="count">0 个点位</span></div><div id="cards" class="cards"></div><div class="empty hidden" id="empty">目前还没有录入点位。点击右上角「添加点位」，上传你自己的教学截图。</div></section></div>
 <div class="footer">GitHub Pages 网页，无需额外账号。点位保存在当前浏览器（localStorage），不同设备不会自动同步。图片会压缩后保存，但浏览器空间仍有限，请定期导出 JSON 备份。<br>地图依据：用户 2026-10-15 游戏内截图；版本改动核对：VALORANT 13.08 Patch Notes。<a href="https://playvalorant.com/en-us/news/game-updates/valorant-patch-notes-13-08/" target="_blank">查看官方公告</a></div></div>
 <div class="overlay hidden" id="detailOverlay"><div class="modal"><div class="modalhead"><div id="detailHead"></div><button id="closeDetail">✕</button></div><div class="modalcontent" id="detailContent"></div></div></div>
@@ -47,6 +71,31 @@ if(!hasStoredData&&!db.lineups.some(x=>x.id===builtInFirstLineup.id)){db.lineups
 function save(){try{localStorage.setItem(DB,JSON.stringify(db));return true}catch(e){alert('保存失败：浏览器空间不足。建议减少图片数量或使用更小图片，并先导出备份。');return false}}
 function uid(){return String(Date.now())+Math.random().toString(36).slice(2)}
 function setMap(){ $('mapImg').src=db.mapImage||DEFAULT_MAP }
+function setMapPanelOpen(isOpen){
+ const panel=$('mapPanel');
+ panel.classList.toggle('hidden',!isOpen);
+ $('toggleMap').setAttribute('aria-expanded',String(isOpen));
+ $('toggleMap').textContent=isOpen?'收起地图':'展开地图';
+}
+$('toggleMap').onclick=()=>{
+ if(editing&&$('editOverlay').classList.contains('hidden')){
+  alert('正在标注坐标。如需退出，请点击地图下方的「取消标注，返回编辑」。');
+  return;
+ }
+ setMapPanelOpen($('mapPanel').classList.contains('hidden'));
+};
+$('cancelMapSelection').onclick=()=>{
+ if(!editing)return;
+ const original=editingId?db.lineups.find(x=>x.id===editingId):null;
+ landing=original?.landing?{...original.landing}:null;
+ standing=original?.standing?{...original.standing}:null;
+ coordStep=0;
+ $('editOverlay').classList.remove('hidden');
+ $('cancelMapSelection').classList.add('hidden');
+ updateCoord();renderPins();
+ setMapPanelOpen(false);
+};
+
 function safe(s){return String(s??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]))}
 function isMapped(x){
  const validPoint=p=>p&&Number.isFinite(Number(p.x))&&Number.isFinite(Number(p.y))&&Number(p.x)>=0&&Number(p.x)<=100&&Number(p.y)>=0&&Number(p.y)<=100;
@@ -62,37 +111,13 @@ function lineupThrowLabel(x){
  if(method==='站投')return '直接投';
  return method;
 }
-function lineupImage(x,kind){
- const arr=Array.isArray(x.steps)?x.steps:[];
- if(!arr.length)return null;
- const rx=kind==='stand'?/(站位|起始|落脚|贴墙|standing|position)/i:/(瞄准|准星|对准|瞄点|aim|crosshair)/i;
- const exact=arr.findIndex(s=>rx.test(String(s.label||'')));
- const i=exact>=0?exact:kind==='stand'?0:arr.length>=2?1:-1;
- return i>=0?{...arr[i],index:i}:null;
-}
-function shortShotNote(s,fallback){
- return s?.note?.trim()||fallback;
-}
-function cardQuickVisuals(x){
- const a=lineupImage(x,'stand'),b=lineupImage(x,'aim');
- const one=(s,title)=>`<div class="glance-image"><span>${title}</span>${s?.src?`<img loading="lazy" src="${s.src}" alt="${title}截图">`:'<div class="empty-shot">尚未上传</div>'}</div>`;
- return `<div class="glance-cover">${one(a,'① 站位')}${one(b,'② 瞄准')}</div>`;
-}
-function detailQuickGuide(x){
- const a=lineupImage(x,'stand'),b=lineupImage(x,'aim');
- const tile=(s,title,fallback)=>{
-   const image=s?.src?`<img src="${s.src}" alt="${title}截图">`:'<div class="glance-shot-empty">暂无对应截图</div>';
-   return `<button type="button" class="glance-step" ${s?'data-glance-jump="'+s.index+'"':'disabled'}><span class="glance-step-title">${title}</span>${image}<span class="glance-step-note">${safe(shortShotNote(s,fallback))}</span></button>`;
- };
- return `<section class="glance-detail" aria-label="对局速查"><div class="glance-detail-head">⚡ 对局速查：看完这三步就能投</div><div class="glance-steps">${tile(a,'① 站在哪里','查看站位截图')}${tile(b,'② 瞄哪里','查看瞄准截图')}</div><div class="glance-throw-large"><span class="number">③ 投法</span><span class="method">${safe(lineupThrowLabel(x))}</span><span class="explain">点图片可查看完整步骤</span></div></section>`;
-}
 function render(){
  const list=filtered();
  $('count').textContent=list.length+' 个点位';
  document.querySelectorAll('.quick-filter-btn').forEach(b=>{const key=b.dataset.quick;const total=db.lineups.filter(x=>key==='反清'?x.purpose==='反清':x.side===key).length;b.textContent=key+' '+total;b.classList.toggle('active',quickFilter===key);b.setAttribute('aria-pressed',String(quickFilter===key));});
  $('empty').classList.toggle('hidden',list.length!==0);
  $('empty').textContent=db.lineups.length===0?'目前还没有录入点位。点击右上角「添加点位」，上传你自己的教学截图。':'当前筛选下没有点位，请调整搜索或绑定状态。';
- $('cards').innerHTML=list.map(x=>`<article class="card ${isMapped(x)?'':'unmapped'}" tabindex="0" data-id="${safe(x.id)}">${cardQuickVisuals(x)}<div class="cardbody"><h3>${safe(x.title)}</h3><div class="glance-throw"><span class="glance-throw-label">③ 投法</span><strong>${safe(lineupThrowLabel(x))}</strong><span class="glance-throw-hint">${safe(x.side)} · ${safe(x.target||'')}</span></div><div class="row"><span class="pill">${safe(x.ability)}</span>${x.purpose==='反清'?'<span class="pill purpose-tag">反清</span>':''}<span class="map-status ${isMapped(x)?'done':'pending'}">${isMapped(x)?'✓ 已绑定地图':'● 待绑定地图'}</span></div>${x.summary?`<p class="glance-summary">${safe(x.summary)}</p>`:''}<small class="muted">${x.steps?.length||0} 张教学图 · 点击查看大图</small>${isMapped(x)?'':`<button type="button" class="map-action" data-map-id="${safe(x.id)}">＋ 补充地图坐标</button>`}</div></article>`).join('');
+ $('cards').innerHTML=list.map(x=>`<article class="card ${isMapped(x)?'':'unmapped'}" tabindex="0" data-id="${safe(x.id)}"><div class="cover">${x.steps?.[0]?.src?`<img loading="lazy" src="${x.steps[0].src}" alt="${safe(x.title)}的首张教学截图">`:`<div class="fallback">FADE / ${safe(x.ability)}</div>`}</div><div class="cardbody"><h3>${safe(x.title)}</h3><div class="row"><span class="pill">${safe(x.side)}</span><span class="pill">${safe(x.ability)}</span><span class="pill">${safe(x.throw)}</span>${x.purpose==='反清'?'<span class="pill purpose-tag">反清</span>':''}<span class="map-status ${isMapped(x)?'done':'pending'}">${isMapped(x)?'✓ 已绑定地图':'● 待绑定地图'}</span></div>${x.summary?`<p class="glance-summary">${safe(x.summary)}</p>`:''}<small class="muted">${x.steps?.length||0} 张教学图 · 点击查看完整教学</small>${isMapped(x)?'':`<button type="button" class="map-action" data-map-id="${safe(x.id)}">＋ 补充地图坐标</button>`}</div></article>`).join('');
  document.querySelectorAll('.card').forEach(el=>{el.onclick=()=>showDetail(el.dataset.id);el.onkeydown=e=>{if(e.key==='Enter')showDetail(el.dataset.id)}});
  document.querySelectorAll('.map-action').forEach(b=>b.onclick=e=>{e.stopPropagation();beginMapping(b.dataset.mapId)});
  renderPins();
@@ -104,8 +129,7 @@ function showDetail(id){
  const mapped=isMapped(x);
  $('detailHead').innerHTML=`<div class="row"><span class="pill">黑梦 Fade</span><span class="pill">${safe(x.side)}</span><span class="pill">${safe(x.ability)}</span><span class="pill patch">${safe(x.throw)}</span>${x.purpose==='反清'?'<span class="pill purpose-tag">反清</span>':''}<span class="map-status ${mapped?'done':'pending'}">${mapped?'✓ 已绑定地图':'● 待绑定地图'}</span></div><h2>${safe(x.title)}</h2><small class="muted">${safe(x.summary||'')}</small>`;
  let imgs=(x.steps||[]).map((s,i)=>`<figure id="lineup-step-${i}"><b>${i+1}. ${safe(s.label||'教学步骤')}</b><img src="${s.src}" alt="步骤${i+1}"><figcaption>${safe(s.note||'')}</figcaption></figure>`).join('');
- $('detailContent').innerHTML=`${detailQuickGuide(x)}<p class="muted"><b>目标区域：</b>${safe(x.target||'未注明')}　<b>操作：</b>${safe(x.throw)}</p>${mapped?'':'<div class="tip">此教学尚未完整绑定到地图，可继续正常查看图文。补充技能落点和人物站位后将自动标为已绑定。</div><button id="bindFromDetail" class="map-action">＋ 补充地图坐标</button>'}<div class="tip">${safe(x.notes||'尚未填写细节')}</div><h3>完整图文步骤</h3>${imgs||'<div class="empty">未上传教学图片</div>'}<button id="deleteLineup" style="margin:15px 0;color:#b34457">删除这个点位</button>`;
- document.querySelectorAll('[data-glance-jump]').forEach(b=>b.onclick=()=>{const fig=document.getElementById('lineup-step-'+b.dataset.glanceJump);if(fig)fig.scrollIntoView({behavior:'smooth',block:'start'});});
+ $('detailContent').innerHTML=`<div class="throw-highlight"><span class="throw-caption">投掷方式</span><strong>${safe(lineupThrowLabel(x))}</strong></div><p class="muted"><b>目标区域：</b>${safe(x.target||'未注明')}</p>${mapped?'':'<div class="tip">此教学尚未完整绑定到地图，可继续正常查看图文。补充技能落点和人物站位后将自动标为已绑定。</div><button id="bindFromDetail" class="map-action">＋ 补充地图坐标</button>'}${x.notes?`<div class="tip">${safe(x.notes)}</div>`:''}${imgs||'<div class="empty">未上传教学图片</div>'}<button id="deleteLineup" style="margin:15px 0;color:#b34457">删除这个点位</button>`;
  $('deleteLineup').onclick=()=>openDeleteConfirmation(id);
  if(!mapped)$('bindFromDetail').onclick=()=>beginMapping(id);
  $('detailOverlay').classList.remove('hidden');
@@ -191,6 +215,7 @@ function openEdit(id=null){
  renderPins();updateCoord();
 }
 function stopEdit(returnToDetail=true){
+ $('cancelMapSelection').classList.add('hidden');
  const previous=returnToDetail?returnToDetailId:null;
  editing=false;editingId=null;returnToDetailId=null;
  $('editOverlay').classList.add('hidden');
@@ -203,6 +228,8 @@ $('closeEditor').onclick=()=>stopEdit();
 $('cancelEdit').onclick=()=>stopEdit();
 function startCoordinateSelection(){
  coordStep=0;landing=standing=null;
+ setMapPanelOpen(true);
+ $('cancelMapSelection').classList.remove('hidden');
  $('editOverlay').classList.add('hidden');
  $('mapHelp').textContent='现在点击地图上的技能【落点】，然后点击人物【站位】；选完后返回编辑窗口保存。';
  renderPins();
@@ -215,7 +242,7 @@ function beginMapping(id){
  startCoordinateSelection();
 }
 $('chooseCoords').onclick=startCoordinateSelection;
-$('map').onclick=e=>{if(!editing||!$('editOverlay').classList.contains('hidden'))return;let rect=$('map').getBoundingClientRect(),p={x:+((e.clientX-rect.left)*100/rect.width).toFixed(2),y:+((e.clientY-rect.top)*100/rect.height).toFixed(2)};if(coordStep===0){landing=p;coordStep=1;$('mapHelp').textContent='落点已设好。现在点击地图选择【人物站位】'}else{standing=p;coordStep=2;$('editOverlay').classList.remove('hidden');$('mapHelp').textContent='两个位置已经选择完成';updateCoord()}renderPins()};
+$('map').onclick=e=>{if(!editing||!$('editOverlay').classList.contains('hidden'))return;let rect=$('map').getBoundingClientRect(),p={x:+((e.clientX-rect.left)*100/rect.width).toFixed(2),y:+((e.clientY-rect.top)*100/rect.height).toFixed(2)};if(coordStep===0){landing=p;coordStep=1;$('mapHelp').textContent='落点已设好。现在点击地图选择【人物站位】'}else{standing=p;coordStep=2;$('editOverlay').classList.remove('hidden');$('mapHelp').textContent='两个位置已经选择完成';$('cancelMapSelection').classList.add('hidden');updateCoord();setMapPanelOpen(false)}renderPins()};
 function updateCoord(){$('coordinateText').textContent='技能落点：'+(landing?landing.x+'%, '+landing.y+'%':'未选择')+'　人物站位：'+(standing?standing.x+'%, '+standing.y+'%':'未选择')}
 async function compress(file){return new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>{let i=new Image();i.onload=()=>{let sc=Math.min(1,1400/Math.max(i.width,i.height));let c=document.createElement('canvas');c.width=Math.round(i.width*sc);c.height=Math.round(i.height*sc);c.getContext('2d').drawImage(i,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',.79))};i.onerror=reject;i.src=r.result};r.onerror=reject;r.readAsDataURL(file)})}
 $('formPhotos').onchange=async e=>{let fs=Array.from(e.target.files);for(let f of fs){try{steps.push({src:await compress(f),label:['站位','瞄准','投掷','落点'][steps.length]||'补充图片',note:''})}catch{alert('图片读取失败：'+f.name)}}showSteps();e.target.value=''};

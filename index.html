@@ -345,15 +345,17 @@ function defaultLineupTitle(){
  const suffix=ability==='诡眼'?'诡眼':ability;
  return target&&side?target+side+suffix:'';
 }
-function finalizeLineupTitle(rawTitle, ability){
+function finalizeLineupTitle(rawTitle, ability, purpose=''){
  const name=String(rawTitle||'').trim();
- if(ability!=='诡眼')return name;
- if(name.endsWith('诡眼'))return name;
- if(name.endsWith('鬼眼'))return name.slice(0,-2)+'诡眼';
- return name+'诡眼';
+ const titled=ability==='诡眼'
+  ? name.endsWith('诡眼') ? name : name.endsWith('鬼眼') ? name.slice(0,-2)+'诡眼' : name+'诡眼'
+  : name;
+ if(purpose!=='反清'||titled.includes('反清'))return titled;
+ const suffix=ability==='诡眼'?'诡眼':(titled.endsWith(ability)?ability:'');
+ return suffix?titled.slice(0,-suffix.length)+'反清'+suffix:titled+'反清';
 }
 function updateTitlePlaceholder(){
- $('formTitle').placeholder=defaultLineupTitle()||'选好阵营和目标区域后自动生成标题';
+ $('formTitle').placeholder=finalizeLineupTitle(defaultLineupTitle(),$('formAbility').value,$('formPurpose').value)||'选好阵营和目标区域后自动生成标题';
 }
 function openEdit(id=null){
  const original=id?db.lineups.find(z=>z.id===id):null;
@@ -416,7 +418,7 @@ async function compress(file){return new Promise((resolve,reject)=>{let r=new Fi
 $('formPhotos').onchange=async e=>{let fs=Array.from(e.target.files);for(let f of fs){try{steps.push({src:await compress(f),label:['站位','瞄准','投掷','落点'][steps.length]||'补充图片',note:''})}catch{alert('图片读取失败：'+f.name)}}showSteps();e.target.value=''};
 function showSteps(){$('photoSteps').innerHTML=steps.map((s,i)=>`<div class="step"><div><input aria-label="步骤标题" data-i="${i}" class="stepLabel" value="${safe(s.label)}" placeholder="步骤名称" style="width:100%;border:1px solid #ddd;border-radius:5px;padding:6px"><input aria-label="图片备注" data-i="${i}" class="stepNote" value="${safe(s.note)}" placeholder="此图的注意事项" style="width:100%;border:1px solid #ddd;border-radius:5px;padding:6px;margin-top:5px"></div><div><img src="${s.src}"><br><button data-i="${i}" class="removeStep" style="font-size:11px">删除</button></div></div>`).join('');document.querySelectorAll('.stepLabel').forEach(el=>el.oninput=()=>steps[+el.dataset.i].label=el.value);document.querySelectorAll('.stepNote').forEach(el=>el.oninput=()=>steps[+el.dataset.i].note=el.value);document.querySelectorAll('.removeStep').forEach(el=>el.onclick=()=>{steps.splice(+el.dataset.i,1);showSteps()})}
 $('saveBtn').onclick=()=>{
- const title=finalizeLineupTitle($('formTitle').value.trim()||defaultLineupTitle(),$('formAbility').value);
+ const title=finalizeLineupTitle($('formTitle').value.trim()||defaultLineupTitle(),$('formAbility').value,$('formPurpose').value);
  if(!$('formTarget').value)return alert('请选择当前地图的目标区域');
  // 地图坐标为选填项，允许只保存图文教学并在以后编辑时补充。
  const existingIndex=editingId?db.lineups.findIndex(z=>z.id===editingId):-1;
@@ -453,7 +455,7 @@ $('importInput').onchange=async e=>{
  catch(err){alert('不是有效的 Fade Atlas 备份')}
  finally{e.target.value=''}
 };
-for(const id of ['formTarget','formSide','formAbility'])$(id).addEventListener('change',updateTitlePlaceholder);
+for(const id of ['formTarget','formSide','formAbility','formPurpose'])$(id).addEventListener('change',updateTitlePlaceholder);
 document.querySelectorAll('.quick-filter-btn').forEach(btn=>btn.onclick=()=>{const kind=btn.dataset.quick;quickFilter=quickFilter===kind?'':kind;$('sideFilter').value=quickFilter==='进攻'||quickFilter==='防守'?quickFilter:'';render()});
 $('sideFilter').addEventListener('change',()=>{quickFilter='';render()});
 for(let id of ['search','abilityFilter','mappingFilter'])$(id).addEventListener(id==='search'?'input':'change',render);

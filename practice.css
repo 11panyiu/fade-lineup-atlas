@@ -1,0 +1,88 @@
+/* Fade Atlas: practice mode styles. Loaded only alongside the existing atlas. */
+.practice-launch{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  margin:0 0 18px;padding:15px 19px;border:1px solid #dce5f2;
+  border-radius:13px;background:#fff;box-shadow:0 3px 14px #19283d0a
+}
+.practice-launch.active{border-color:#e9a7b5;background:#fff8fa}
+.practice-launch-copy{display:flex;flex-direction:column;gap:4px}
+.practice-launch-copy strong{font-size:16px;color:#22334a}
+.practice-launch-copy strong span{font-size:12px;color:#768397;font-weight:650;margin-left:6px}
+.practice-launch-copy small{font-size:12px;color:#66758b;line-height:1.5}
+.practice-launch-button{background:#e34f6b;border-color:#e34f6b;color:white;font-weight:800;white-space:nowrap}
+.practice-launch-button:hover{background:#c93b57;border-color:#c93b57}
+.practice-launch.active .practice-launch-button{background:white;color:#ab3650;border-color:#e2a6b3}
+.practice-panel{margin:0 0 20px;padding:20px;border:1px solid #e2e7ef;border-radius:15px;background:white;box-shadow:0 4px 20px #19283d0a}
+.practice-panel-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}
+.practice-panel-top h2{font-size:19px;margin:0 0 4px;color:#26354c}
+.practice-panel-top small{font-size:12px;color:#79869a}
+.practice-reset{background:#fff;border-color:#d9e0ea;font-weight:700;font-size:12px;white-space:nowrap}
+.practice-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-bottom:13px}
+.practice-stats>div{display:flex;align-items:center;justify-content:center;gap:12px;background:#f5f7fb;border-radius:10px;padding:13px 8px}
+.practice-stats strong{font-size:29px;line-height:1;font-weight:900;color:#24364e;font-variant-numeric:tabular-nums}
+.practice-stats span{font-size:12px;font-weight:750;color:#617088}
+.practice-stats>div:nth-child(1) strong{color:#168167}
+.practice-stats>div:nth-child(2) strong{color:#b44b5e}
+.practice-progress-track{width:100%;height:9px;background:#eef0f5;border-radius:20px;overflow:hidden}
+#practiceProgressDone{height:100%;width:0%;background:#3c9c8d;border-radius:20px;transition:width .2s ease}
+.practice-progress-caption{font-size:12px;color:#66758b;text-align:right;margin:7px 0 17px}
+.practice-panel-controls{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.practice-filters{display:flex;gap:7px;flex-wrap:wrap}
+.practice-filters button{font-size:12px;font-weight:750;border-radius:8px;padding:9px 12px;background:#f6f8fb;border-color:#e0e6f0}
+.practice-filters button.active{color:#235685;background:#eaf2fd;border-color:#96b8e7}
+.practice-answer-switch{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:750;color:#42516a;cursor:pointer;white-space:nowrap}
+.practice-answer-switch input{accent-color:#e24c66;width:16px;height:16px;cursor:pointer}
+.practice-panel-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:17px;padding-top:14px;border-top:1px solid #edf0f5}
+.practice-panel-foot small{color:#7a8799;line-height:1.5;font-size:12px}
+#practiceUndo{font-size:12px;font-weight:750;border-color:#a9c3df;background:#eef5ff;color:#285887;white-space:nowrap}
+.practice-warning{margin-top:11px;padding:10px 12px;border-radius:8px;background:#fff1ed;color:#9b3e31;font-size:12px}
+.practice-card{border-left:4px solid #d6deea!important}
+.practice-card.practice-status-remembered{border-left-color:#2a9b7f!important}
+.practice-card.practice-status-needs{border-left-color:#dc6674!important}
+.practice-card .quick-card-top{padding-bottom:7px}
+.practice-card-line{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 20px 11px;flex-wrap:wrap}
+.practice-card-line strong{font-size:13px;color:#65718a}
+.practice-status-remembered .practice-card-line strong{color:#137f61}
+.practice-status-needs .practice-card-line strong{color:#b93b51}
+.practice-card-line span{font-size:12px;color:#79859a}
+.practice-card.practice-masked .quick-card-images,
+.practice-card.practice-masked .throw-command,
+.practice-card.practice-masked .glance-summary{display:none!important}
+.practice-card.practice-masked .quick-card-top{padding-bottom:9px}
+.practice-card .quick-card-meta{padding-top:0}
+.practice-card-actions{display:flex;gap:9px;align-items:center;padding:10px 18px 16px;flex-wrap:wrap;border-top:1px solid #ecf0f6}
+.practice-action{flex:1;min-width:110px;padding:10px 12px;border-radius:9px;font-size:13px;font-weight:750;background:#fff;border:1px solid #d4deea}
+.practice-action.chosen.remembered{background:#e4f5ed;color:#137c5a;border-color:#90d1b4}
+.practice-action.chosen.needs{background:#fff0f0;color:#ad354c;border-color:#e1a7b1}
+.practice-action.practice-reveal{flex:0 0 auto;background:#f1f5fa;color:#455b76;font-size:12px}
+.practice-detail-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 15px;padding:13px;border-radius:10px;background:#f3f6fb}
+.practice-detail-controls strong{font-size:13px;color:#344960;margin-right:auto}
+.practice-detail-controls .practice-action{flex:0 0 auto}
+.practice-answer-gate{padding:28px 18px;text-align:center;border:1px dashed #c8d4e3;border-radius:12px;background:#f9fbfe;margin-bottom:16px}
+.practice-answer-gate strong{display:block;font-size:17px;color:#263e5b}
+.practice-answer-gate p{color:#6d7e92;max-width:480px;margin:12px auto 19px;font-size:13px}
+.practice-detail-masked #detailHead .pill.patch,
+.practice-detail-masked #detailHead small{display:none!important}
+@media(max-width:680px){
+ .practice-launch{padding:13px;align-items:flex-start;flex-wrap:wrap}
+ .practice-launch-copy{flex:1 1 190px}
+ .practice-launch-button{min-height:39px}
+ .practice-panel{padding:14px}
+ .practice-stats{gap:6px}
+ .practice-stats>div{flex-direction:column;gap:6px;padding:11px 3px}
+ .practice-stats strong{font-size:25px}
+ .practice-panel-top{align-items:flex-start}
+ .practice-card-line{padding:0 12px 11px}
+ .practice-card-actions{padding:10px 12px 13px;gap:7px}
+ .practice-action{min-width:90px;font-size:12px;padding:10px 8px}
+ .practice-detail-controls .practice-action{flex:1 1 100px}
+ .practice-detail-controls strong{width:100%}
+ .practice-panel-foot{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:430px){
+ .practice-launch-button{width:100%}
+ .practice-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+ .practice-filters button{padding:9px 5px}
+ .practice-answer-switch{margin-top:4px}
+ .practice-card-actions .practice-reveal{flex:1 1 100%}
+}

@@ -1,0 +1,102 @@
+/* Fade Atlas compact layout: fewer stacked panels, quicker access to adding lineups. */
+header{padding-top:12px;padding-bottom:12px}
+.wrap{padding-top:16px}
+.site-nav{margin:0 0 11px}
+#fadeWorkspace>small.muted,#fadeWorkspace>div.muted{display:none}
+#fadeWorkspace>h1{margin:0 0 12px;font-size:24px}
+#fadeWorkspace>.tools{margin:0 0 8px;gap:7px}
+#fadeWorkspace>.tools input,#fadeWorkspace>.tools select{padding:9px 10px}
+#fadeWorkspace>.tools button{padding:9px 11px}
+
+.atlas-shortcuts{
+ display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+ margin:0 0 11px;padding:0;border:0;background:transparent
+}
+.atlas-shortcuts .map-launch,.atlas-shortcuts .practice-launch{
+ display:contents
+}
+.atlas-shortcuts .map-launch-info,.atlas-shortcuts .practice-launch-copy{display:none}
+.atlas-shortcuts #toggleMap,.atlas-shortcuts #practiceToggle{
+ width:auto;min-height:36px;padding:8px 12px;margin:0;font-size:12px;
+ font-weight:750;line-height:1.2;border-radius:8px;white-space:nowrap;
+ border:1px solid #d6dfed;background:#fff;color:#405372
+}
+.atlas-shortcuts #toggleMap:hover,.atlas-shortcuts #practiceToggle:hover{
+ border-color:#a4b9da;background:#f5f8fe
+}
+.atlas-shortcuts #practiceToggle[aria-pressed="true"]{
+ background:#fff0f3;color:#b33655;border-color:#e8aabb
+}
+.atlas-shortcuts #toggleMap[aria-expanded="true"]{
+ background:#e8f2ff;color:#265686;border-color:#abc9ed
+}
+.atlas-shortcuts #toggleMap::before{content:"▦";margin-right:7px;font-weight:900}
+.atlas-shortcuts #practiceToggle::before{content:"✓";margin-right:7px;font-weight:900}
+
+/* The two frequently used filter groups share one slim container. */
+.atlas-fast-filters{
+ display:flex;align-items:center;gap:7px 16px;flex-wrap:wrap;
+ margin:0 0 11px;padding:9px 12px;border:1px solid #e0e7f0;
+ border-radius:11px;background:#fff;box-shadow:0 2px 8px #17253607
+}
+.atlas-fast-filters .area-filter-bar{
+ display:flex;align-items:center;gap:8px;flex:0 1 auto;flex-wrap:wrap;
+ margin:0;padding:0;border:0;border-radius:0;box-shadow:none;background:transparent
+}
+.atlas-fast-filters .area-filter-label{font-size:12px;color:#596983}
+.atlas-fast-filters .area-filter-buttons{gap:5px}
+.atlas-fast-filters .area-filter-btn{
+ min-height:32px;padding:6px 10px;border-radius:7px;font-size:12px
+}
+
+/* One original Add button, next to tutorials, stays within reach while scrolling. */
+#fadeWorkspace .status-bar{
+ display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+ position:sticky;top:0;z-index:11;min-height:54px;
+ padding:7px 0 9px;margin:0 0 8px;
+ background:#f3f5f9f5;backdrop-filter:blur(9px);
+ border-bottom:1px solid #dfe6f0
+}
+#fadeWorkspace .status-bar h2{
+ order:0;font-size:18px;line-height:1.3;margin:0;white-space:nowrap
+}
+#fadeWorkspace .status-bar #count{order:1;margin-right:auto}
+#fadeWorkspace .status-bar #addBtn{
+ order:2;margin-left:auto;padding:9px 13px;font-size:13px;
+ min-height:37px;border-radius:9px;font-weight:800;white-space:nowrap
+}
+#fadeWorkspace .status-bar .layout-switcher{order:3;margin-left:0}
+#fadeWorkspace .status-bar .layout-switcher .view-toggle{width:37px;height:37px}
+#fadeWorkspace .status-bar .layout-switcher .view-toggle svg{width:20px;height:20px}
+#fadeWorkspace .layout{gap:12px}
+#fadeWorkspace .map-panel{margin-bottom:0}
+#fadeWorkspace .practice-panel{margin:0 0 11px}
+#fadeWorkspace .practice-panel .practice-stats>div{padding:10px 7px}
+#fadeWorkspace .practice-panel .practice-stats strong{font-size:25px}
+#fadeWorkspace .practice-panel .practice-stats{margin-bottom:10px}
+#fadeWorkspace .practice-panel .practice-panel-top{margin-bottom:12px}
+#fadeWorkspace .practice-panel .practice-progress-caption{margin-bottom:11px}
+
+@media(max-width:950px){
+ .atlas-fast-filters{gap:8px}
+}
+@media(max-width:680px){
+ .wrap{padding-top:12px}
+ .site-nav{margin-bottom:9px}
+ #fadeWorkspace>h1{font-size:21px;margin-bottom:9px}
+ #fadeWorkspace>.tools{gap:6px}
+ .atlas-shortcuts{margin-bottom:9px}
+ .atlas-fast-filters{padding:8px;gap:8px}
+ .atlas-fast-filters .area-filter-bar{width:100%;gap:7px}
+ .atlas-fast-filters .area-filter-buttons{flex:1}
+ .atlas-fast-filters .area-filter-btn{padding:6px 8px;flex:0 0 auto}
+ #fadeWorkspace .status-bar h2{font-size:16px}
+ #fadeWorkspace .status-bar #count{font-size:10px}
+ #fadeWorkspace .status-bar #addBtn{padding:8px 10px}
+}
+@media(max-width:440px){
+ #fadeWorkspace .status-bar #count{display:none}
+ #fadeWorkspace .status-bar h2{margin-right:auto}
+ #fadeWorkspace .status-bar #addBtn{font-size:12px;margin-left:0}
+ #fadeWorkspace .status-bar .layout-switcher .view-toggle{width:34px;height:34px}
+}

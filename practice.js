@@ -11,6 +11,7 @@
   let undoSnapshot = null;
   let hideAnswers = true;
   let storageError = false;
+  let loadedMapId = currentMapId;
 
   function readPreference() {
     try { return localStorage.getItem(HIDE_KEY) !== 'false'; }
@@ -18,6 +19,7 @@
   }
   function mapKey() { return PREFIX + currentMapId; }
   function loadMarks() {
+    loadedMapId = currentMapId;
     marks = Object.create(null);
     revealed.clear();
     undoSnapshot = null;
@@ -193,7 +195,10 @@
   }
 
   function decorateDetail(id) {
-    if (!active || $p('detailOverlay').classList.contains('hidden')) return;
+    if (!active || $p('detailOverlay').classList.contains('hidden')) {
+      $p('detailOverlay').classList.remove('practice-detail-masked');
+      return;
+    }
     const container = $p('detailContent');
     if (!container) return;
     const existing = document.createElement('div');
@@ -210,7 +215,9 @@
     controls.appendChild(actionButton('× 没记住', 'needs', id, state === 'needs'));
     container.appendChild(controls);
 
-    if (hideAnswers && !revealed.has(id)) {
+    const masked = hideAnswers && !revealed.has(id);
+    $p('detailOverlay').classList.toggle('practice-detail-masked', masked);
+    if (masked) {
       existing.classList.add('hidden');
       const gate = document.createElement('div');
       gate.className = 'practice-answer-gate';
@@ -224,6 +231,7 @@
       revealButton.textContent = '查看完整教学答案';
       revealButton.onclick = function () {
         revealed.add(id);
+        $p('detailOverlay').classList.remove('practice-detail-masked');
         existing.classList.remove('hidden');
         gate.remove();
         render();
@@ -239,6 +247,7 @@
 
   const baseRender = render;
   render = function () {
+    if (loadedMapId !== currentMapId) { view = 'all'; loadMarks(); }
     baseRender();
     updateUI();
     if (!active) return;

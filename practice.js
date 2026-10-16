@@ -97,7 +97,7 @@
         '<button type="button" data-review-filter="needs">只看需加强</button>' +
         '<button type="button" data-review-filter="remembered">已掌握</button>' +
       '</div>' +
-      '<label class="practice-answer-switch"><input type="checkbox" id="practiceHideAnswers" checked> 隐藏教学答案</label>' +
+      '<label class="practice-answer-switch"><input type="checkbox" id="practiceHideAnswers" checked> 隐藏瞄点与投法</label>' +
     '</div>' +
     '<div class="practice-panel-foot"><small>点击「记住了」或「没记住」记录本轮结果，再次点击相同按钮可取消标记。</small>' +
     '<button id="practiceUndo" type="button" class="hidden">撤销上次重置</button></div>' +
@@ -169,7 +169,7 @@
     const line = document.createElement('div');
     line.className = 'practice-card-line';
     line.innerHTML = '<strong>' + (state === 'remembered' ? '✓ ' : state === 'needs' ? '× ' : '○ ') + shortLabel(state) + '</strong>' +
-      (masked ? '<span>先在游戏内回忆站位、瞄点及投法</span>' : '<span>教学答案已显示</span>');
+      (masked ? '<span>根据站位图回忆瞄点与投法</span>' : '<span>完整教学已显示</span>');
     const top = card.querySelector('.quick-card-top');
     if (top) top.insertAdjacentElement('afterend', line);
 
@@ -222,9 +222,25 @@
       const gate = document.createElement('div');
       gate.className = 'practice-answer-gate';
       const heading = document.createElement('strong');
-      heading.textContent = '先尝试独立完成这个点位';
+      heading.textContent = '根据站位图回忆这个点位';
       const explanation = document.createElement('p');
-      explanation.textContent = '站位、瞄点、投掷方式和教学备注已隐藏。先在自定义地图里尝试，再打开答案核对。';
+      explanation.textContent = '站位参考图会一直显示。请先在自定义地图里回忆瞄点和投法，再查看完整教学核对。';
+      const lineup = (db.lineups || []).find(function (row) { return row.id === id; });
+      const positionShot = lineup ? quickLineupImages(lineup)[0] : null;
+      const preview = document.createElement('div');
+      preview.className = 'practice-position-preview';
+      if (positionShot && positionShot.src) {
+        const previewLabel = document.createElement('span');
+        previewLabel.textContent = '站位参考图';
+        const previewImage = document.createElement('img');
+        previewImage.src = positionShot.src;
+        previewImage.alt = (lineup.title || '点位') + '站位参考图';
+        previewImage.loading = 'lazy';
+        preview.append(previewLabel, previewImage);
+      } else {
+        preview.classList.add('practice-position-missing');
+        preview.textContent = '这个点位还没有站位参考图，请在编辑点位时补充。';
+      }
       const revealButton = document.createElement('button');
       revealButton.type = 'button';
       revealButton.className = 'practice-launch-button';
@@ -236,7 +252,7 @@
         gate.remove();
         render();
       };
-      gate.append(heading, explanation, revealButton);
+      gate.append(heading, preview, explanation, revealButton);
       container.appendChild(gate);
     }
     container.appendChild(existing);

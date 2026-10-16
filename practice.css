@@ -45,7 +45,12 @@
 .practice-status-remembered .practice-card-line strong{color:#137f61}
 .practice-status-needs .practice-card-line strong{color:#b93b51}
 .practice-card-line span{font-size:12px;color:#79859a}
-.practice-card.practice-masked .quick-card-images,
+/* Show one identifiable positioning screenshot, never the aiming/answer shot. */
+.practice-card.practice-masked .quick-card-images{
+ display:grid!important;grid-template-columns:minmax(0,1fr);
+ width:min(100%,560px);margin:0 auto;padding:0 12px 11px
+}
+.practice-card.practice-masked .quick-card-shot:nth-child(n+2){display:none!important}
 .practice-card.practice-masked .throw-command,
 .practice-card.practice-masked .glance-summary{display:none!important}
 .practice-card.practice-masked .quick-card-top{padding-bottom:9px}
@@ -59,6 +64,20 @@
 .practice-detail-controls strong{font-size:13px;color:#344960;margin-right:auto}
 .practice-detail-controls .practice-action{flex:0 0 auto}
 .practice-answer-gate{padding:28px 18px;text-align:center;border:1px dashed #c8d4e3;border-radius:12px;background:#f9fbfe;margin-bottom:16px}
+.practice-position-preview{
+ width:min(100%,600px);margin:16px auto 8px;text-align:left;
+ border:1px solid #d7e1ef;border-radius:12px;overflow:hidden;background:#172438
+}
+.practice-position-preview span{
+ display:block;padding:8px 12px;font-size:12px;font-weight:750;
+ color:#44566d;background:#f0f4fa
+}
+.practice-position-preview img{
+ display:block;width:100%;max-height:350px;object-fit:contain;background:#172438
+}
+.practice-position-preview.practice-position-missing{
+ padding:20px 12px;text-align:center;font-size:12px;color:#586a81;background:#f0f4fa
+}
 .practice-answer-gate strong{display:block;font-size:17px;color:#263e5b}
 .practice-answer-gate p{color:#6d7e92;max-width:480px;margin:12px auto 19px;font-size:13px}
 .practice-detail-masked #detailHead .pill.patch,

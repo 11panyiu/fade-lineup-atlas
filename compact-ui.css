@@ -33,18 +33,18 @@ header{padding-top:12px;padding-bottom:12px}
 .atlas-shortcuts #toggleMap::before{content:"▦";margin-right:7px;font-weight:900}
 .atlas-shortcuts #practiceToggle::before{content:"✓";margin-right:7px;font-weight:900}
 
-/* The two frequently used filter groups share one slim container. */
+/* Two compact filter rows: target area first, side/tactics second. */
 .atlas-fast-filters{
- display:flex;align-items:center;gap:7px 16px;flex-wrap:wrap;
+ display:flex;flex-direction:column;align-items:stretch;gap:7px;
  margin:0 0 11px;padding:9px 12px;border:1px solid #e0e7f0;
  border-radius:11px;background:#fff;box-shadow:0 2px 8px #17253607
 }
 .atlas-fast-filters .area-filter-bar{
- display:flex;align-items:center;gap:8px;flex:0 1 auto;flex-wrap:wrap;
+ display:flex;align-items:center;gap:8px;width:100%;flex:0 0 auto;flex-wrap:wrap;
  margin:0;padding:0;border:0;border-radius:0;box-shadow:none;background:transparent
 }
-.atlas-fast-filters .area-filter-label{font-size:12px;color:#596983}
-.atlas-fast-filters .area-filter-buttons{gap:5px}
+.atlas-fast-filters .area-filter-label{font-size:12px;color:#596983;flex:0 0 66px}
+.atlas-fast-filters .area-filter-buttons{gap:5px;flex:1 1 auto}
 .atlas-fast-filters .area-filter-btn{
  min-height:32px;padding:6px 10px;border-radius:7px;font-size:12px
 }

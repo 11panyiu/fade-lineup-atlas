@@ -100,12 +100,12 @@ header{padding-top:12px;padding-bottom:12px}
  width:100%;
  max-width:none;
  margin:0;
- padding-left:clamp(20px,5vw,112px);
- padding-right:clamp(20px,5vw,112px);
+ padding-left:10vw;
+ padding-right:10vw;
 }
 header{
- padding-left:clamp(20px,5vw,112px);
- padding-right:clamp(20px,5vw,112px);
+ padding-left:10vw;
+ padding-right:10vw;
 }
 @media(max-width:700px){
  .wrap,header{

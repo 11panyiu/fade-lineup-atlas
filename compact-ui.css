@@ -100,12 +100,18 @@ header{padding-top:12px;padding-bottom:12px}
  width:100%;
  max-width:none;
  margin:0;
- padding-left:clamp(12px,2vw,48px);
- padding-right:clamp(12px,2vw,48px);
+ padding-left:clamp(20px,5vw,112px);
+ padding-right:clamp(20px,5vw,112px);
 }
 header{
- padding-left:clamp(12px,2vw,48px);
- padding-right:clamp(12px,2vw,48px);
+ padding-left:clamp(20px,5vw,112px);
+ padding-right:clamp(20px,5vw,112px);
+}
+@media(max-width:700px){
+ .wrap,header{
+  padding-left:16px;
+  padding-right:16px;
+ }
 }
 #fadeWorkspace .quick-card-shot{
  max-height:none;

@@ -8,7 +8,7 @@ if(!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(conf.url||'') ||
    !/^(sb_publishable_|eyJ)/.test(conf.publishableKey||'') ||
    !window.supabase?.createClient)return;
 const api=window.supabase.createClient(conf.url,conf.publishableKey);
-const BUCKET='fade-lineups-private',TABLE='fade_cloud_maps',META='fadeCloudRevisionV1_';
+const BUCKET='fade-lineups-private',TABLE='fade_cloud_maps',META='fadeCloudRevisionV1_',OFFLINE='fadeCloudOfflineEditsV1_';
 let session=null,working=false,applying=false,timer=0,decisionOpen=false;
 const el=id=>document.getElementById(id);
 const toolrow=document.querySelector('#fadeWorkspace .tools');
@@ -56,7 +56,11 @@ function putMeta(id,meta){
  catch(e){msg('同步状态无法保存，请检查浏览器存储。',true)}
 }
 function markDirty(id){
- if(!session||applying)return;
+ if(applying)return;
+ if(!session){
+   try{localStorage.setItem(OFFLINE+id,'1')}catch(e){}
+   return;
+ }
  const m=getMeta(id);
  putMeta(id,{revision:m.revision||null,dirty:true,serial:(m.serial||0)+1});
  msg('本机已保存，等待上传云端…');
@@ -152,6 +156,12 @@ async function check(id,manual){
  if(!session||working||decisionOpen||editing||switchingMap||storageWriting||id!==currentMapId)return;
  working=true;
  try{
+   const unsynced=localStorage.getItem(OFFLINE+id)==='1';
+   if(unsynced){
+     const m=getMeta(id);
+     putMeta(id,{...m,dirty:true,serial:(m.serial||0)+1});
+     localStorage.removeItem(OFFLINE+id);
+   }
    const remote=await remoteVersion(id);
    const meta=getMeta(id);
    if(!remote){await push(id,null);return}

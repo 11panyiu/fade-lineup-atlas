@@ -41,6 +41,7 @@
     try {
       localStorage.setItem(mapKey(), JSON.stringify({version: 1, statuses: marks}));
       storageError = false;
+      window.dispatchEvent(new CustomEvent('fade-review-changed', {detail: {mapId: currentMapId}}));
     } catch (error) {
       storageError = true;
       console.error('跑图复习记录无法保存', error);

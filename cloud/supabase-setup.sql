@@ -39,3 +39,9 @@ create policy "fade_storage_upload_own" on storage.objects for insert
   with check (bucket_id='fade-lineups-private'
     and (storage.foldername(name))[1] = (select auth.uid())::text);
 -- Snapshot filenames are unique. Updates and deletes are intentionally forbidden.
+
+drop policy if exists "fade_storage_delete_own" on storage.objects;
+create policy "fade_storage_delete_own" on storage.objects for delete
+  to authenticated
+  using (bucket_id='fade-lineups-private'
+    and (storage.foldername(name))[1] = (select auth.uid())::text);

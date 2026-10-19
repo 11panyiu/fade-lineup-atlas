@@ -1,0 +1,173 @@
+/* Mobile-only refinements for Fade Lineups.
+   Keep the original screenshots uncropped and present filters in predictable rows. */
+@media (max-width: 700px) {
+  /* The page must fit inside the actual phone viewport. */
+  html, body { max-width: 100%; overflow-x: hidden; }
+  .wrap, #fadeWorkspace { min-width: 0; }
+  #fadeWorkspace > .tools {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      "search search search search"
+      "side side ability ability"
+      "mapping mapping cloud cloud"
+      "export export import import";
+    align-items: stretch;
+    gap: 8px;
+    margin: 0 0 10px;
+  }
+  #fadeWorkspace > .tools > #search { grid-area: search; }
+  #fadeWorkspace > .tools > #sideFilter { grid-area: side; }
+  #fadeWorkspace > .tools > #abilityFilter { grid-area: ability; }
+  #fadeWorkspace > .tools > #mappingFilter { grid-area: mapping; }
+  #fadeWorkspace > .tools > #cloudLaunch { grid-area: cloud; }
+  #fadeWorkspace > .tools > #exportBtn { grid-area: export; }
+  #fadeWorkspace > .tools > #importBtn { grid-area: import; }
+  #fadeWorkspace > .tools > input[hidden] { display:none !important; }
+  #fadeWorkspace > .tools > input,
+  #fadeWorkspace > .tools > select,
+  #fadeWorkspace > .tools > button {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0;
+    min-height: 42px;
+    padding: 9px 10px;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+  #fadeWorkspace > .tools > #search {
+    min-width: 0;
+    padding-inline: 13px;
+    font-size: 16px; /* Prevent iOS auto-zoom when focusing the field. */
+  }
+  #fadeWorkspace > .tools > select {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 18px;
+  }
+  #fadeWorkspace > .tools > button {white-space:nowrap; font-weight:700;}
+  /* Without cloud connectivity the mapping filter takes the whole last filter row. */
+  #fadeWorkspace > .tools:not(:has(#cloudLaunch)) > #mappingFilter {grid-column:1 / -1;}
+
+  /* Map and tactical filters remain two distinct, aligned rows. */
+  .atlas-fast-filters { gap: 10px; padding: 11px; }
+  .atlas-fast-filters .area-filter-bar {
+    display:grid;
+    grid-template-columns: 76px minmax(0,1fr);
+    gap: 7px;
+    align-items:start;
+  }
+  .atlas-fast-filters .area-filter-label {
+    width:auto;
+    flex:none;
+    margin-top:7px;
+    font-size:12px;
+    white-space:nowrap;
+  }
+  .atlas-fast-filters .area-filter-buttons {
+    min-width:0;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+    gap:6px;
+  }
+  .atlas-fast-filters .area-filter-btn {min-height:34px;padding:6px 9px;}
+
+  /* Put Add Lineup beside the section name instead of pushing it onto a new line. */
+  #fadeWorkspace .status-bar {flex-wrap:nowrap;gap:7px;min-width:0;}
+  #fadeWorkspace .status-bar h2 {
+    width:auto;
+    min-width:0;
+    margin:0 auto 0 0;
+    font-size:16px;
+  }
+  #fadeWorkspace .status-bar #addBtn {
+    margin-left:0;
+    flex:0 0 auto;
+    padding:8px 10px;
+    font-size:12px;
+  }
+  #fadeWorkspace .status-bar .layout-switcher {flex:0 0 auto;}
+
+  /* Gameplay screenshots were originally different aspect ratios.
+     Don't force them into a fixed 16:9 dark box: intrinsic size prevents
+     stretching, cropping, and the false black pillarboxes. */
+  #fadeWorkspace .quick-card-shot,
+  #fadeWorkspace .cards[data-layout="grid"] .quick-card-shot,
+  #fadeWorkspace .cards[data-layout="large"] .quick-card-shot {
+    aspect-ratio:auto;
+    max-height:none;
+    height:auto;
+    background:transparent;
+    display:block;
+    overflow:hidden;
+  }
+  #fadeWorkspace .quick-card-shot img,
+  #fadeWorkspace .cards[data-layout="grid"] .quick-card-shot img {
+    display:block;
+    width:100%;
+    height:auto;
+    max-height:none;
+    object-fit:contain;
+    aspect-ratio:auto;
+    background:transparent;
+  }
+  #fadeWorkspace .quick-card-shot .missing {
+    display:flex;
+    min-height:110px;
+    align-items:center;
+    justify-content:center;
+    background:#edf2f8;
+    color:#66768a;
+  }
+  #fadeWorkspace .cards[data-layout="large"] .quick-card-images {
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+  }
+  /* Keep compact grid mode available, without compressing images artificially. */
+  #fadeWorkspace .cards[data-layout="grid"] .quick-card-top{
+    flex-wrap:wrap;
+    align-items:flex-start;
+    gap:6px;
+  }
+  #fadeWorkspace .cards[data-layout="grid"] .quick-card-top h3 {
+    font-size:clamp(12px,3.5vw,15px);
+    line-height:1.3;
+  }
+  #fadeWorkspace .cards[data-layout="grid"] .throw-command {
+    flex:0 0 auto;
+    max-width:100%;
+    padding:6px 8px;
+  }
+  #fadeWorkspace .cards[data-layout="grid"] .throw-command strong {
+    font-size:clamp(12px,3.3vw,15px);
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  #fadeWorkspace .cards[data-layout="grid"] .quick-card-meta small {
+    font-size:11px;
+    line-height:1.4;
+  }
+  /* Practice positioning preview also follows the screenshot's original ratio. */
+  #fadeWorkspace .practice-card.practice-masked .quick-card-images {
+    max-width:100%;
+  }
+  .practice-position-preview {background:transparent;}
+  .practice-position-preview img {
+    width:100%;
+    height:auto;
+    max-height:none;
+    object-fit:contain;
+    background:transparent;
+  }
+}
+@media(max-width:360px){
+  #fadeWorkspace > .tools {gap:6px;}
+  #fadeWorkspace > .tools > input,
+  #fadeWorkspace > .tools > select,
+  #fadeWorkspace > .tools > button {font-size:12px;padding-inline:7px;}
+  #fadeWorkspace > .tools > #search {font-size:16px;}
+  .atlas-fast-filters .area-filter-bar{grid-template-columns:70px minmax(0,1fr);}
+}

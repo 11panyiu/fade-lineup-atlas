@@ -469,7 +469,7 @@ function render(){
   :$('search').value.trim()
     ?'没有匹配「'+$('search').value.trim()+'」的点位。清空顶部搜索框，或者调整目标区域和阵营筛选。'
     :'当前区域、阵营和战术筛选组合下没有点位，请调整筛选条件。';
- $('cards').innerHTML=list.map(x=>`<article class="card lineup-quick-card" tabindex="0" data-id="${safe(x.id)}"><div class="quick-card-top"><h3>${safe(x.title)}</h3><div class="throw-command ${throwKind(x)}"><span class="throw-caption">投掷</span><strong>${safe(lineupThrowLabel(x))}</strong></div></div>${quickCardImages(x)}<div class="quick-card-meta">${x.summary?`<p class="glance-summary">${safe(x.summary)}</p>`:''}${isMapped(x)?'':`<button type="button" class="map-action" data-map-id="${safe(x.id)}" title="补充地图坐标" aria-label="补充地图坐标">＋ 地图坐标</button>`}</div></article>`).join('');
+ $('cards').innerHTML=list.map(x=>`<article class="card lineup-quick-card" tabindex="0" data-id="${safe(x.id)}"><div class="quick-card-top"><div class="quick-card-intro"><h3>${safe(x.title)}</h3>${x.summary?`<p class="glance-summary">${safe(x.summary)}</p>`:''}</div><div class="throw-command ${throwKind(x)}"><span class="throw-caption">投掷</span><strong>${safe(lineupThrowLabel(x))}</strong></div></div>${quickCardImages(x)}<div class="quick-card-meta">${isMapped(x)?'':`<button type="button" class="map-action" data-map-id="${safe(x.id)}" title="补充地图坐标" aria-label="补充地图坐标">＋ 地图坐标</button>`}</div></article>`).join('');
  document.querySelectorAll('.card').forEach(el=>{el.onclick=()=>showDetail(el.dataset.id);el.onkeydown=e=>{if(e.key==='Enter')showDetail(el.dataset.id)}});
  document.querySelectorAll('.map-action').forEach(b=>b.onclick=e=>{e.stopPropagation();beginMapping(b.dataset.mapId)});
  renderPins();
@@ -479,9 +479,9 @@ function showDetail(id){
  let x=db.lineups.find(z=>z.id===id);if(!x)return;
  selected=id;renderPins();
  const mapped=isMapped(x);
- $('detailHead').innerHTML=`<div class="row"><span class="pill">黑梦 Fade</span><span class="pill">${safe(x.side)}</span><span class="pill">${safe(x.ability)}</span><span class="pill patch">${safe(x.throw)}</span>${x.purpose?`<span class="pill purpose-tag">${safe(x.purpose)}</span>`:''}</div><h2>${safe(x.title)}</h2><small class="muted">${safe(x.summary||'')}</small>`;
+ $('detailHead').innerHTML=`<div class="detail-eyebrow"><span>黑梦 Fade</span><span class="detail-separator">/</span><span>${safe(x.side)}</span><span class="detail-separator">/</span><span>${safe(x.ability)}</span>${x.purpose?`<span class="detail-purpose">${safe(x.purpose)}</span>`:''}</div><h2>${safe(x.title)}</h2>${x.summary?`<p class="detail-subtitle">${safe(x.summary)}</p>`:''}`;
  let imgs=(x.steps||[]).map((s,i)=>`<figure id="lineup-step-${i}"><b>${i+1}. ${safe(s.label||'教学步骤')}</b><img src="${s.src}" alt="步骤${i+1}"><figcaption>${safe(s.note||'')}</figcaption></figure>`).join('');
- $('detailContent').innerHTML=`<div class="throw-highlight"><span class="throw-caption">投掷方式</span><strong>${safe(lineupThrowLabel(x))}</strong></div><p class="muted"><b>目标区域：</b>${safe(x.target||'未注明')}</p>${mapped?'':'<button id="bindFromDetail" class="map-action">＋ 补充地图坐标</button>'}${x.notes?`<div class="tip">${safe(x.notes)}</div>`:''}${imgs||'<div class="empty">未上传教学图片</div>'}<button id="deleteLineup" style="margin:15px 0;color:#b34457">删除这个点位</button>`;
+ $('detailContent').innerHTML=`<div class="detail-facts"><div class="throw-highlight"><span class="throw-caption">投掷方式</span><strong>${safe(lineupThrowLabel(x))}</strong></div><div class="detail-target"><span>目标区域</span><strong>${safe(x.target||'未注明')}</strong></div></div>${mapped?'':'<button id="bindFromDetail" class="map-action">＋ 补充地图坐标</button>'}<div class="detail-section-title">教学截图</div><div class="detail-steps">${imgs||'<div class="empty">未上传教学图片</div>'}</div>${x.notes?`<section class="detail-notes"><div class="detail-section-title">使用时机及细节</div><div class="tip">${safe(x.notes)}</div></section>`:''}<div class="detail-danger-zone"><button id="deleteLineup" type="button">删除这个点位</button></div>`;
  $('deleteLineup').onclick=()=>openDeleteConfirmation(id);
  if(!mapped)$('bindFromDetail').onclick=()=>beginMapping(id);
  $('detailOverlay').classList.remove('hidden');

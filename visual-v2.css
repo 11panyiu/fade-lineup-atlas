@@ -438,26 +438,28 @@ button.primary:hover { background:#bf3d5b; border-color:#bf3d5b; }
 }
 #detailOverlay .detail-facts{
   display:flex;
-  align-items:stretch;
+  align-items:center;
+  justify-content:flex-start;
   flex-wrap:wrap;
-  gap:10px;
-  margin:0 0 14px;
+  gap:9px;
+  margin:0 0 12px;
 }
 #detailOverlay .detail-facts .throw-highlight,
 #detailOverlay .detail-facts .detail-target {
-  min-width:160px;
-  display:flex;
-  flex:1 1 170px;
+  display:inline-flex;
+  flex:0 0 auto;
+  width:max-content;
+  max-width:100%;
+  min-width:0;
   align-items:center;
-  gap:10px;
+  gap:8px;
   margin:0;
-  border-radius:9px;
-  padding:11px 15px;
+  border-radius:8px;
+  padding:8px 11px;
   background:#f6f8fc;
   border:1px solid #e9eef5;
 }
 #detailOverlay .detail-facts .throw-highlight {
-  flex:0 1 auto;
   background:#fff1f4;
   border-color:#f7e5e9;
 }
@@ -728,12 +730,14 @@ button.primary:hover { background:#bf3d5b; border-color:#bf3d5b; }
   #detailHead h2 {font-size:23px;}
   #detailHead .detail-subtitle {font-size:14px;}
   #detailOverlay .modalcontent {padding:18px;}
-  #detailOverlay .detail-facts {gap:8px;}
+  #detailOverlay .detail-facts {gap:8px;align-items:center;}
   #detailOverlay .detail-facts .throw-highlight,
   #detailOverlay .detail-facts .detail-target {
-    flex:1 1 140px;
+    flex:0 0 auto;
+    width:max-content;
+    max-width:100%;
     min-width:0;
-    padding:10px 11px;
+    padding:7px 10px;
   }
   #detailOverlay .detail-facts .throw-highlight strong {font-size:15px;}
   #detailOverlay .detail-target strong {font-size:13px;}

@@ -171,3 +171,59 @@
   #fadeWorkspace > .tools > #search {font-size:16px;}
   .atlas-fast-filters .area-filter-bar{grid-template-columns:70px minmax(0,1fr);}
 }
+
+
+/* On small screens the same three improvements must remain visible in BOTH views. */
+@media(max-width:700px){
+  #fadeWorkspace .cards[data-layout="large"] .lineup-quick-card .quick-card-meta .glance-summary{
+    display:block;
+    font-size:15px;
+    line-height:1.5;
+    font-weight:650;
+    margin:8px 0 10px;
+    padding:9px 11px;
+  }
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-meta .glance-summary{
+    display:block;
+    overflow:visible;
+    -webkit-line-clamp:unset;
+    line-clamp:unset;
+    font-size:13px;
+    font-weight:600;
+    line-height:1.45;
+    padding:7px 8px;
+    margin:7px 0 9px;
+  }
+  #fadeWorkspace .lineup-quick-card .quick-card-meta .map-action,
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-meta .map-action{
+    display:inline-flex;
+    flex:0 0 auto;
+    width:auto;
+    min-height:28px;
+    margin:6px 0 0;
+    padding:4px 7px;
+    font-size:11px;
+    line-height:1.2;
+    white-space:nowrap;
+  }
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-meta .map-action{
+    font-size:10px;
+    padding:4px 6px;
+  }
+  #fadeWorkspace .lineup-quick-card .quick-card-shot,
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-shot{
+    height:auto;
+    aspect-ratio:auto;
+    background:transparent;
+  }
+  #fadeWorkspace .lineup-quick-card .quick-card-shot img,
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-shot img{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:auto;
+    max-height:none;
+    object-fit:contain;
+    background:transparent;
+  }
+}

@@ -198,17 +198,18 @@
   #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-meta .map-action{
     display:inline-flex;
     flex:0 0 auto;
+    align-items:center;
     width:auto;
-    min-height:28px;
-    margin:6px 0 0;
-    padding:4px 7px;
-    font-size:11px;
-    line-height:1.2;
+    min-height:23px;
+    margin:3px 0 0;
+    padding:3px 6px;
+    font-size:10px;
+    line-height:1.15;
     white-space:nowrap;
   }
   #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-meta .map-action{
     font-size:10px;
-    padding:4px 6px;
+    padding:3px 5px;
   }
   #fadeWorkspace .lineup-quick-card .quick-card-shot,
   #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-shot{

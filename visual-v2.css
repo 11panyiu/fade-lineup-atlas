@@ -1,0 +1,752 @@
+/*
+ * FADE LINEUPS • Visual system v2
+ * Presentation-only overrides loaded after the existing stylesheets.
+ * No browser storage, card state, filters or cloud-sync logic is changed here.
+ *
+ * Hierarchy: title > one-sentence explanation > full-resolution game images.
+ * Accent colors are reserved for the brand, active controls and throw types.
+ */
+:root {
+  --fl-ink: #14263e;
+  --fl-text: #364961;
+  --fl-muted: #63748a;
+  --fl-faint: #8190a2;
+  --fl-page: #f5f7fb;
+  --fl-surface: #ffffff;
+  --fl-soft: #f7f9fc;
+  --fl-outline: #e4eaf2;
+  --fl-outline-strong: #d2dde9;
+  --fl-brand: #d94c69;
+  --fl-brand-soft: #fff1f4;
+  --fl-blue-soft: #edf4fd;
+  --fl-blue: #386494;
+  --fl-shadow: 0 4px 18px rgba(21,41,68,.045);
+  --fl-shadow-hover: 0 12px 32px rgba(21,41,68,.105);
+}
+html { color-scheme: light; }
+body {
+  color: var(--fl-ink);
+  background: var(--fl-page);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "PingFang SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea { font-family: inherit; }
+button:focus-visible, input:focus-visible, select:focus-visible,
+textarea:focus-visible, .card:focus-visible {
+  outline: 2px solid #7fa2d4;
+  outline-offset: 2px;
+}
+button { transition: background-color .16s ease, border-color .16s ease, color .16s ease; }
+header {
+  border-color: var(--fl-outline);
+  background: #fff;
+}
+.brand {font-size:22px; font-weight:780; color:var(--fl-ink); letter-spacing:-.65px;}
+.brand b {color:var(--fl-brand);}
+#headerMapTag {
+  border:1px solid #f6e3e9;
+  background:var(--fl-brand-soft);
+  color:#a5445d;
+  font-weight:650;
+}
+#fadeWorkspace>h1 {
+  color:var(--fl-ink);
+  font-size:clamp(25px,1.65vw,32px);
+  font-weight:750;
+  line-height:1.3;
+  letter-spacing:-.6px;
+}
+.site-nav {margin-bottom:13px;}
+.board-tabs {
+  background:#eff3f8;
+  border-color:#e7edf5;
+  padding:4px;
+  border-radius:11px;
+}
+.board-tab {
+  font-weight:650;
+  border-radius:8px;
+  color:var(--fl-muted);
+}
+.board-tab[aria-selected="true"] {
+  color:var(--fl-brand);
+  box-shadow:0 2px 9px #18304c0d;
+}
+#mapSelect,.tools input,.tools select,
+#fadeWorkspace>.tools button {
+  border-radius:9px;
+  border-color:var(--fl-outline-strong);
+  box-shadow:none;
+  color:var(--fl-text);
+  background:#fff;
+}
+.tools input::placeholder {color:#98a3b2;opacity:1;}
+#fadeWorkspace>.tools{margin-bottom:10px;}
+#fadeWorkspace>.tools input,#fadeWorkspace>.tools select,
+#fadeWorkspace>.tools button {
+  min-height:39px;
+  font-size:13px;
+}
+#fadeWorkspace>.tools #search {font-weight:450;}
+#fadeWorkspace>.tools #cloudLaunch {color:var(--fl-blue);}
+#fadeWorkspace .atlas-shortcuts {gap:8px;}
+#fadeWorkspace .atlas-shortcuts #toggleMap,
+#fadeWorkspace .atlas-shortcuts #practiceToggle {
+  padding:8px 11px;
+  font-weight:650;
+  font-size:12px;
+  background:#fff;
+  border:1px solid var(--fl-outline-strong);
+  color:#495d75;
+  border-radius:8px;
+}
+/* Two purposeful, quiet rows remain; selection color is consistent. */
+#fadeWorkspace .atlas-fast-filters {
+  border:1px solid var(--fl-outline);
+  box-shadow:var(--fl-shadow);
+  border-radius:12px;
+  padding:11px 14px;
+  gap:9px;
+  background:var(--fl-surface);
+  margin-bottom:13px;
+}
+#fadeWorkspace .atlas-fast-filters .area-filter-label {
+  font-size:12px;
+  font-weight:650;
+  color:var(--fl-muted);
+  letter-spacing:.08px;
+}
+#fadeWorkspace .atlas-fast-filters .area-filter-btn {
+  min-height:32px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:650;
+  background:#f8fafc;
+  border:1px solid var(--fl-outline);
+  color:var(--fl-text);
+  box-shadow:none;
+  padding:6px 10px;
+}
+#fadeWorkspace .atlas-fast-filters .area-filter-btn:hover {
+  background:#eff5fc;
+  border-color:#c9d9ec;
+}
+#fadeWorkspace .atlas-fast-filters .area-filter-btn.active,
+#fadeWorkspace .atlas-fast-filters .area-filter-btn[aria-pressed="true"] {
+  background:var(--fl-blue-soft);
+  color:#2f5e91;
+  border-color:#a9c4e5;
+  box-shadow:none;
+}
+#fadeWorkspace .atlas-fast-filters .area-count{
+  opacity:.64;
+  font-weight:600;
+  font-variant-numeric:tabular-nums;
+}
+#fadeWorkspace .status-bar {
+  background:rgba(245,247,251,.96);
+  border-color:var(--fl-outline);
+  min-height:54px;
+  padding:8px 0 10px;
+}
+#fadeWorkspace .status-bar h2{
+  font-size:18px;
+  font-weight:750;
+  color:var(--fl-ink);
+  letter-spacing:-.35px;
+}
+#fadeWorkspace .status-bar #count{
+  background:transparent;
+  color:var(--fl-faint);
+  font-weight:550;
+  font-size:11px;
+  padding:4px 1px;
+}
+#fadeWorkspace .status-bar #addBtn,
+button.primary {
+  background:var(--fl-brand);
+  border-color:var(--fl-brand);
+  color:#fff;
+  font-weight:700;
+}
+#fadeWorkspace .status-bar #addBtn:hover,
+button.primary:hover { background:#bf3d5b; border-color:#bf3d5b; }
+#fadeWorkspace .status-bar .layout-switcher .view-toggle {
+  background:#fff;
+  border-color:var(--fl-outline-strong);
+  color:#53667f;
+  border-radius:9px;
+}
+#fadeWorkspace .layout-switcher .view-toggle:hover {
+  border-color:#9ab1d0;
+  color:var(--fl-blue);
+}
+#fadeWorkspace .cards {gap:18px;}
+
+/* Quick cards: typographic emphasis first, useful information second. */
+#fadeWorkspace .card.lineup-quick-card {
+  background:#fff;
+  border:1px solid var(--fl-outline);
+  border-radius:14px;
+  box-shadow:var(--fl-shadow);
+  transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease;
+}
+#fadeWorkspace .card.lineup-quick-card:hover {
+  transform:translateY(-1px);
+  border-color:#cad7e8;
+  box-shadow:var(--fl-shadow-hover);
+}
+#fadeWorkspace .card.lineup-quick-card.unmapped {
+  border-color:var(--fl-outline);
+  box-shadow:var(--fl-shadow);
+}
+#fadeWorkspace .lineup-quick-card .quick-card-top {
+  padding:20px 22px 16px;
+  align-items:flex-start;
+  gap:16px;
+}
+#fadeWorkspace .quick-card-intro{
+  min-width:0;
+  flex:1 1 auto;
+}
+#fadeWorkspace .lineup-quick-card .quick-card-top h3 {
+  margin:0;
+  font-size:22px;
+  font-weight:750;
+  color:var(--fl-ink);
+  line-height:1.4;
+  letter-spacing:-.32px;
+}
+#fadeWorkspace .lineup-quick-card .quick-card-intro .glance-summary{
+  display:block;
+  margin:7px 0 0;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#5c6e84;
+  font-size:16px;
+  font-weight:440;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+#fadeWorkspace .lineup-quick-card .throw-command{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:#f4f7fb;
+  border:1px solid #e5ebf3;
+  border-radius:8px;
+  padding:8px 12px;
+  color:#546a83;
+  box-shadow:none;
+  max-width:46%;
+}
+#fadeWorkspace .lineup-quick-card .throw-command .throw-caption{
+  font-size:11px;
+  line-height:1.3;
+  font-weight:550;
+  opacity:.9;
+  color:inherit;
+}
+#fadeWorkspace .lineup-quick-card .throw-command strong{
+  color:inherit;
+  font-size:15px;
+  font-weight:760;
+  line-height:1.3;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  letter-spacing:0;
+}
+#fadeWorkspace .lineup-quick-card .throw-command.throw-jump {
+  background:#fff0f3;
+  border-color:#f5dce4;
+  color:#a73d58;
+}
+#fadeWorkspace .lineup-quick-card .throw-command.throw-run {
+  background:#fff6ec;
+  border-color:#f2e4d3;
+  color:#95612d;
+}
+#fadeWorkspace .lineup-quick-card .throw-command.throw-direct {
+  background:#eff5fc;
+  border-color:#dce8f5;
+  color:#38658e;
+}
+#fadeWorkspace .lineup-quick-card .quick-card-images {
+  padding:0 20px 14px;
+  gap:10px;
+}
+#fadeWorkspace .lineup-quick-card .quick-card-shot {
+  overflow:hidden;
+  border-radius:9px;
+  border:1px solid #e7ecf2;
+  background:transparent;
+  max-height:none;
+  aspect-ratio:auto;
+  height:auto;
+}
+#fadeWorkspace .lineup-quick-card .quick-card-shot img {
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:auto;
+  object-fit:contain;
+  background:transparent;
+}
+#fadeWorkspace .lineup-quick-card .quick-card-meta {
+  padding:0 20px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+}
+#fadeWorkspace .lineup-quick-card .quick-card-meta:empty {display:none;}
+#fadeWorkspace .lineup-quick-card .quick-card-meta .map-action {
+  border:0;
+  background:transparent;
+  color:#7d8da1;
+  font-size:11px;
+  line-height:1.4;
+  padding:3px 4px;
+  min-height:22px;
+  border-radius:5px;
+  margin:0;
+  font-weight:550;
+}
+#fadeWorkspace .lineup-quick-card .quick-card-meta .map-action:hover {
+  border:0;
+  background:#eef4fa;
+  color:#3d6286;
+}
+/* Compact grid still presents the original short description. */
+#fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-top {
+  padding:15px 15px 12px;
+  gap:7px;
+  flex-wrap:wrap;
+}
+#fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-top h3 {
+  font-size:18px;
+  line-height:1.4;
+}
+#fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-intro .glance-summary{
+  display:block;
+  margin:6px 0 0;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#617389;
+  font-size:13px;
+  font-weight:450;
+  line-height:1.5;
+  overflow:visible;
+  -webkit-line-clamp:unset;
+  line-clamp:unset;
+}
+#fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .throw-command {
+  padding:5px 8px;
+  border-radius:6px;
+}
+#fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .throw-command strong{
+  font-size:12px;
+}
+#fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .throw-command .throw-caption{
+  display:none;
+}
+#fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-images {
+  padding:0 12px 10px;
+}
+#fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-meta {
+  padding:0 12px 12px;
+}
+
+/* Detail dialog: keep existing gameplay data but organize it in readable sections. */
+#detailOverlay{
+  background:rgba(15,29,48,.66);
+  backdrop-filter:blur(3px);
+  padding:clamp(12px,2vw,24px);
+}
+#detailOverlay .modal {
+  width:min(920px,100%);
+  max-height:min(92vh,940px);
+  border-radius:17px;
+  box-shadow:0 22px 70px rgba(9,22,39,.29);
+  background:white;
+}
+#detailOverlay .modalhead{
+  position:relative;
+  background:#fff;
+  padding:25px 30px 21px;
+  border-bottom:1px solid var(--fl-outline);
+  gap:17px;
+  align-items:flex-start;
+}
+#detailHead {min-width:0;flex:1;}
+#detailHead .detail-eyebrow {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  color:#77879b;
+  font-size:12px;
+  font-weight:650;
+  line-height:1.4;
+}
+#detailHead .detail-separator {color:#bec8d3;font-weight:400;}
+#detailHead .detail-purpose{
+  background:#f1f5fa;
+  color:#526882;
+  border-radius:6px;
+  padding:3px 7px;
+}
+#detailHead h2{
+  margin:11px 0 6px;
+  color:var(--fl-ink);
+  font-size:clamp(23px,2vw,28px);
+  line-height:1.35;
+  font-weight:780;
+  letter-spacing:-.45px;
+}
+#detailHead .detail-subtitle {
+  font-size:15px;
+  font-weight:440;
+  line-height:1.65;
+  color:#5e7188;
+  margin:0;
+}
+#detailOverlay #closeDetail {
+  width:38px;
+  height:38px;
+  min-width:38px;
+  padding:0;
+  display:grid;
+  place-items:center;
+  color:#64778d;
+  background:#f8fafc;
+  border-color:#e4ebf3;
+  border-radius:11px;
+  font-size:18px;
+}
+#detailOverlay #closeDetail:hover {
+  background:#f0f5fa;
+  border-color:#bdcde1;
+}
+#detailOverlay .modalcontent {
+  padding:24px 30px 29px;
+  overflow-y:auto;
+}
+#detailOverlay .detail-facts{
+  display:flex;
+  align-items:stretch;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:0 0 14px;
+}
+#detailOverlay .detail-facts .throw-highlight,
+#detailOverlay .detail-facts .detail-target {
+  min-width:160px;
+  display:flex;
+  flex:1 1 170px;
+  align-items:center;
+  gap:10px;
+  margin:0;
+  border-radius:9px;
+  padding:11px 15px;
+  background:#f6f8fc;
+  border:1px solid #e9eef5;
+}
+#detailOverlay .detail-facts .throw-highlight {
+  flex:0 1 auto;
+  background:#fff1f4;
+  border-color:#f7e5e9;
+}
+#detailOverlay .detail-facts .throw-caption,
+#detailOverlay .detail-facts .detail-target span{
+  color:#697b90;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+}
+#detailOverlay .detail-facts .throw-highlight strong {
+  font-size:17px;
+  font-weight:760;
+  color:#aa3958;
+  line-height:1.25;
+  white-space:nowrap;
+}
+#detailOverlay .detail-target strong{
+  font-size:15px;
+  color:#344f6e;
+  font-weight:680;
+}
+#detailOverlay #bindFromDetail {
+  margin:0 0 12px;
+  padding:5px 8px;
+  font-size:11px;
+  min-height:28px;
+  background:#f8fafc;
+  color:#677b94;
+  border:1px solid #e2e9f2;
+  border-radius:7px;
+}
+#detailOverlay .detail-section-title {
+  margin:21px 0 12px;
+  font-size:16px;
+  color:#233a56;
+  font-weight:760;
+  letter-spacing:-.2px;
+}
+#detailOverlay .detail-steps figure {
+  margin:0 0 22px;
+  padding:0 0 21px;
+  border-bottom:1px solid #edf1f6;
+}
+#detailOverlay .detail-steps figure:last-of-type{
+  margin-bottom:0;
+  border-bottom:0;
+  padding-bottom:0;
+}
+#detailOverlay .detail-steps figure>b {
+  display:block;
+  margin:0 0 10px;
+  color:#415571;
+  font-size:13px;
+  font-weight:680;
+  line-height:1.55;
+}
+#detailOverlay .detail-steps figure img {
+  width:100%;
+  max-height:none;
+  height:auto;
+  object-fit:contain;
+  display:block;
+  border-radius:10px;
+  background:transparent;
+  border:1px solid #e7edf4;
+}
+#detailOverlay .detail-steps figcaption {
+  margin:11px 0 0;
+  font-size:13px;
+  line-height:1.6;
+  color:#60738b;
+}
+#detailOverlay .detail-notes{
+  padding-top:2px;
+}
+#detailOverlay .detail-notes .tip{
+  background:#f3f7fc;
+  border-left:3px solid #aac5e8;
+  border-radius:8px;
+  color:#445b77;
+  line-height:1.75;
+  padding:15px 17px;
+  font-size:14px;
+  font-weight:440;
+}
+#detailOverlay .detail-danger-zone {
+  border-top:1px solid #eef1f6;
+  margin-top:24px;
+  padding-top:15px;
+  display:flex;
+  justify-content:flex-end;
+}
+#detailOverlay #deleteLineup {
+  border:0;
+  padding:5px 7px;
+  font-size:12px;
+  background:transparent;
+  color:#ad6170;
+}
+#detailOverlay #deleteLineup:hover {
+  color:#9e314a;
+  background:#fff1f4;
+}
+/* Practice mode uses its existing memory rules, but shares the new visual language. */
+#fadeWorkspace .practice-panel {
+  border:1px solid var(--fl-outline);
+  border-radius:13px;
+  box-shadow:var(--fl-shadow);
+  background:#fff;
+}
+#fadeWorkspace .practice-panel h2{color:var(--fl-ink);font-weight:750;}
+#fadeWorkspace .practice-panel .practice-stats>div{
+  background:#f5f8fc;
+  border-radius:9px;
+}
+#fadeWorkspace .practice-filters button{
+  background:#f7f9fc;
+  border-color:#e2eaf4;
+  color:#50647b;
+  font-weight:650;
+}
+#fadeWorkspace .practice-filters button.active{
+  background:var(--fl-blue-soft);
+  border-color:#b2cbe9;
+  color:var(--fl-blue);
+}
+#fadeWorkspace .practice-card .practice-card-line{
+  padding-left:22px;
+  padding-right:22px;
+}
+#fadeWorkspace .practice-card .practice-card-actions{
+  border-top-color:#eef1f6;
+  gap:8px;
+}
+#fadeWorkspace .practice-card .practice-action{
+  background:#fafbfd;
+  border-color:#dfe7f1;
+  border-radius:8px;
+}
+#fadeWorkspace .practice-card .practice-action.chosen.remembered{
+  background:#e8f7f0;
+  color:#16735a;
+}
+#fadeWorkspace .practice-card .practice-action.chosen.needs{
+  background:#fff0f2;
+  color:#a93f55;
+}
+/* The visible first positioning photo remains intact in practice mode. */
+#fadeWorkspace .practice-card.practice-masked .quick-card-images {
+  width:min(100%,650px);
+}
+.practice-detail-masked #detailHead .detail-subtitle{
+  display:none!important;
+}
+#detailOverlay .practice-detail-controls{
+  border:1px solid #e6edf6;
+  background:#f5f8fb;
+  border-radius:10px;
+}
+#detailOverlay .practice-answer-gate {
+  border:1px dashed #c7d7ea;
+  background:#f9fbfe;
+  border-radius:11px;
+}
+
+/* Editorial consistency in the less frequently used dialogs. */
+#editOverlay .modal {
+  border-radius:16px;
+  border:1px solid var(--fl-outline);
+}
+#editOverlay .modalhead {border-color:var(--fl-outline);}
+#editOverlay .modalhead h2 {color:var(--fl-ink);}
+#editOverlay .formlayout label {color:#566b82;}
+#editOverlay .formlayout input,
+#editOverlay .formlayout textarea,
+#editOverlay .formlayout select {
+  background:#fff;
+  border-radius:8px;
+  border-color:#cfdae7;
+}
+#editOverlay .paste-zone {
+  background:#f8fafc;
+  border-color:#c6d4e6;
+}
+#fadeWorkspace .map-panel {
+  border-color:var(--fl-outline);
+  box-shadow:var(--fl-shadow);
+}
+#empty {
+  border-color:var(--fl-outline);
+  color:var(--fl-muted);
+  border-radius:13px;
+}
+
+/* Tablet and phone: readable labels, not a shrunken desktop card. */
+@media (max-width:900px) {
+  #fadeWorkspace .lineup-quick-card .quick-card-images {
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+  }
+}
+@media (max-width:700px) {
+  .brand {font-size:19px;}
+  #fadeWorkspace>h1 {font-size:23px;}
+  #fadeWorkspace .atlas-fast-filters {padding:10px;gap:9px;}
+  #fadeWorkspace .status-bar h2 {font-size:16px;}
+  #fadeWorkspace .lineup-quick-card .quick-card-top {
+    padding:15px 14px 12px;
+    gap:9px;
+  }
+  #fadeWorkspace .lineup-quick-card .quick-card-top h3 {
+    font-size:18px;
+    line-height:1.4;
+  }
+  #fadeWorkspace .lineup-quick-card .quick-card-intro .glance-summary {
+    font-size:15px;
+    line-height:1.55;
+    margin-top:5px;
+    padding:0;
+  }
+  #fadeWorkspace .lineup-quick-card .throw-command {
+    padding:6px 9px;
+    border-radius:7px;
+    max-width:43%;
+  }
+  #fadeWorkspace .lineup-quick-card .throw-command .throw-caption {display:none;}
+  #fadeWorkspace .lineup-quick-card .throw-command strong {
+    font-size:12px;
+    line-height:1.4;
+  }
+  #fadeWorkspace .lineup-quick-card .quick-card-images {padding:0 12px 11px;}
+  #fadeWorkspace .lineup-quick-card .quick-card-meta {padding:0 12px 12px;}
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-top {
+    padding:11px 10px 8px;
+    align-items:flex-start;
+  }
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-top h3 {
+    font-size:14px;
+    line-height:1.4;
+  }
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-intro .glance-summary {
+    display:block;
+    font-size:13px;
+    line-height:1.5;
+    margin-top:6px;
+    color:#65778d;
+  }
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .throw-command {
+    padding:4px 7px;
+    max-width:100%;
+  }
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .throw-command strong{font-size:11px;}
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-images {padding:0 8px 9px;}
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-meta {padding:0 8px 9px;}
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-meta .map-action {
+    font-size:10px;
+    padding:3px 2px;
+  }
+  #fadeWorkspace .practice-card .practice-card-line {padding:0 14px 10px;}
+  #detailOverlay {padding:10px;}
+  #detailOverlay .modal {
+    width:100%;
+    max-height:94dvh;
+    border-radius:14px;
+  }
+  #detailOverlay .modalhead {padding:19px 18px 16px;}
+  #detailHead h2 {font-size:23px;}
+  #detailHead .detail-subtitle {font-size:14px;}
+  #detailOverlay .modalcontent {padding:18px;}
+  #detailOverlay .detail-facts {gap:8px;}
+  #detailOverlay .detail-facts .throw-highlight,
+  #detailOverlay .detail-facts .detail-target {
+    flex:1 1 140px;
+    min-width:0;
+    padding:10px 11px;
+  }
+  #detailOverlay .detail-facts .throw-highlight strong {font-size:15px;}
+  #detailOverlay .detail-target strong {font-size:13px;}
+  #detailOverlay .detail-steps figure img {max-height:none;height:auto;object-fit:contain;}
+}
+@media(max-width:400px) {
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .quick-card-top {
+    flex-direction:column;
+    align-items:stretch;
+  }
+  #fadeWorkspace .cards[data-layout="grid"] .lineup-quick-card .throw-command {align-self:flex-start;}
+}
+@media(prefers-reduced-motion:reduce){
+  #fadeWorkspace .card.lineup-quick-card,
+  button {transition:none!important;}
+}
